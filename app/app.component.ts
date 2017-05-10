@@ -1,3 +1,5 @@
+import { UserService } from './dashboard/user/user.service';
+import { BucketlistService } from './dashboard/bucketlists/bucketlists.service';
 import { Component, OnInit } from '@angular/core';
 import {LocationStrategy, PlatformLocation, Location} from '@angular/common';
 
@@ -6,7 +8,8 @@ declare var $:any;
 @Component({
     selector: 'bl-app',
     moduleId: module.id,
-    templateUrl: 'app.component.html'
+    templateUrl: 'app.component.html',
+    providers: [UserService]
 })
 
 export class AppComponent implements OnInit{
