@@ -16,6 +16,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
     imports:      [
         BrowserModule,
+        HttpModule,
         DashboardModule,
         SidebarModule,
         NavbarModule,

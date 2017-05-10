@@ -161,7 +161,7 @@
                                         <li>{{ product.color }}</li>
                                     </ul>
                                     <table class="table" *ngIf='items && items.length'>
-                                        <tbody *ngFor="let item of items">
+                                        <tbody *ngFor="let bucketlist of bucketlists">
                                             <tr>
                                                 <td>
                                                     <div class="checkbox">
@@ -170,7 +170,7 @@
                                                         </label>
                                                     </div>
                                                 </td>
-                                                <td>{{ item.description }}</td>
+                                                <td>{{ bucketlist.description }}</td>
                                                 <td class="td-actions text-right">
                                                     <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
                                                         <i class="material-icons">edit</i>

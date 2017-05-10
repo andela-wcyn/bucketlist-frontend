@@ -12,7 +12,8 @@ declare var $:any;
 })
 
 export class BucketlistsComponent implements OnInit{
-    items : IBucketlist[];
+    bucketlists : any[];
+    errorMessage : string;
     // Dependency Injection
     constructor(private _bucketlistService: BucketlistService){
          
@@ -26,6 +27,9 @@ export class BucketlistsComponent implements OnInit{
         // });
         // initDemo();
         // Retrieve all the bucketlists
-        this.items = this._bucketlistService.getBucketlists();
+        this._bucketlistService.getBucketlists()
+            .subscribe(
+                bucketlists => this.bucketlists = bucketlists,
+                error => this.errorMessage = <any>error);
     }
 }
