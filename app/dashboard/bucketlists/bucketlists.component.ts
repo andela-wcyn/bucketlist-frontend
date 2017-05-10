@@ -12,7 +12,7 @@ declare var $:any;
 })
 
 export class BucketlistsComponent implements OnInit{
-    bucketlists : any[];
+    bucketlists : IBucketlist[];
     errorMessage : string;
     // Dependency Injection
     constructor(private _bucketlistService: BucketlistService){

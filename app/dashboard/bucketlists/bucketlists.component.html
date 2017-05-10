@@ -1,72 +1,29 @@
 <div class="main-content">
 
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="row" *ngIf='bucketlists && bucketlists.length'>
+                <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let bucketlist of bucketlists">
                     <div class="card card-stats" >
-                        <div class="card-header" data-background-color="orange">
-                            <i class="material-icons">content_copy</i>
-                        </div>
+                
                         <div class="card-content">
-                            <p class="category">Used Space</p>
-                            <h3 class="title">49/50<small>GB</small></h3>
+                            <h3 class="title">{{ bucketlist.description }}</h3>
+                            <p class="category">Items: {{ bucketlist.item_count }}</p>
                         </div>
                         <div class="card-footer">
                             <div class="stats">
-                                <i class="material-icons text-danger">warning</i> <a href="#pablo">Get More Space...</a>
+                                <td class="td-actions text-right">
+                                    <button type="button" rel="tooltip" title="Edit Bucketlist" class="btn btn-primary btn-simple btn-xs">
+                                        <i class="material-icons">edit</i>
+                                    </button>
+                                    <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs">
+                                        <i class="material-icons">delete</i>
+                                    </button>
+                                </td>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="card card-stats" >
-                        <div class="card-header" data-background-color="green">
-                            <i class="material-icons">store</i>
-                        </div>
-                        <div class="card-content">
-                            <p class="category">Revenue</p>
-                            <h3 class="title">$34,245</h3>
-                        </div>
-                        <div class="card-footer">
-                            <div class="stats">
-                                <i class="material-icons">date_range</i> Last 24 Hours
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="card card-stats" >
-                        <div class="card-header" data-background-color="red">
-                            <i class="material-icons">info_outline</i>
-                        </div>
-                        <div class="card-content">
-                            <p class="category">Fixed Issues</p>
-                            <h3 class="title">75</h3>
-                        </div>
-                        <div class="card-footer">
-                            <div class="stats">
-                                <i class="material-icons">local_offer</i> Tracked from Github
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="card card-stats" >
-                        <div class="card-header" data-background-color="blue">
-                            <i class="fa fa-twitter"></i>
-                        </div>
-                        <div class="card-content">
-                            <p class="category">Followers</p>
-                            <h3 class="title">+245</h3>
-                        </div>
-                        <div class="card-footer">
-                            <div class="stats">
-                                <i class="material-icons">update</i> Just Updated
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
 
             <div class="row">
@@ -157,10 +114,7 @@
                         <div class="card-content">
                             <div class="tab-content">
                                 <div class="tab-pane active" id="profile">
-                                    <ul *ngFor="let product of products">
-                                        <li>{{ product.color }}</li>
-                                    </ul>
-                                    <table class="table" *ngIf='items && items.length'>
+                                    <table class="table" *ngIf='bucketlists && bucketlists.length'>
                                         <tbody *ngFor="let bucketlist of bucketlists">
                                             <tr>
                                                 <td>

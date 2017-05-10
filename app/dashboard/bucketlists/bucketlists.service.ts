@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Http, Response, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
+import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
@@ -22,7 +23,7 @@ export class BucketlistService {
         this.createAuthorizationHeader(headers);
         return this._http.get(this._bucketlistsUrl, {headers: headers})
                     .map((response: Response) => <IBucketlist[]>response.json().data[0])
-                    .do(data=> console.log('All: ' + JSON.stringify(data)))
+                    .do(data=> console.log('All: bucketlists retrieved'))
                     .catch(this.handleError);
         // return [
         // {"id": 1,"description": "My first Item", "detailsLink": "link1", "itemCount": 3, "items": []},
