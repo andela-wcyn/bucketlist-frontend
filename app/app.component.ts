@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {LocationStrategy, PlatformLocation, Location} from '@angular/common';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
-import { AuthHttp, JwtHelper } from 'angular2-jwt';
+import { AuthHttp, tokenNotExpired } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 
-import { UserService } from './dashboard/user/user.service';
 import { BucketlistService } from './dashboard/bucketlists/bucketlists.service';
 
 declare var $:any;
@@ -13,21 +12,21 @@ const APP_SERVER = 'http://localhost:5000/api/v1/';
 @Component({
     selector: 'bl-app',
     moduleId: module.id,
-    templateUrl: 'app.component.html',
-    providers: [UserService]
+    templateUrl: 'app.component.html'
 })
 
 export class AppComponent implements OnInit{
     location: Location;
-    private authenticated: boolean = false;
+    private authenticated: boolean = tokenNotExpired();
     private messages: Array<string> = [];
     errorMessage: any;
     token_expired: any;
     user: any;
-
-    constructor(location:Location, private _userservice: UserService) {
+    
+    constructor(location:Location) {
         this.location = location;
     }
+    
       // get the unprotected resource
 //   getUnprotected() {
 //     this.messages.push('Requesting unprotected resource');
@@ -65,35 +64,15 @@ export class AppComponent implements OnInit{
     ngOnInit(){
         $.getScript('../assets/js/material-dashboard.js');
         $.getScript('../assets/js/initMenu.js');
-        
+        // this.user = this.getUser.emit()
     }
 
-    login() {
-        this._userservice.login("1234567", "molly")
-            .subscribe(
-                    (data) => {
-                    // save the token in local storage
-                    let token = data.token;
-                    console.log("User Token: " + token);
-                    let jwtHelper: JwtHelper = new JwtHelper();
-                    localStorage.setItem('id_token', token);
-                    this.messages.push(`Login successful, token saved.`);
-                    this.authenticated = true;
-            
-                    this.messages.push(`expiration: ${jwtHelper.getTokenExpirationDate(token)}`);
-                    this.token_expired = `is expired: ${jwtHelper.isTokenExpired(token)}`;
-                    this.messages.push(`decoded: ${JSON.stringify(jwtHelper.decodeToken(token))}`);
-            
-                    // now get the protected resource
-                    // this.getProtected();
-                },
-                (error) => {
-                    let errors = error.errors;
-                    console.log("Errors: ", error);
-                    this.errorMessage = `Login failed: ${errors}`;
-                }
-            );
+    loggedIn() {
+        console.log("USer: ", this.user)
+        console.log("Logged IN? " + tokenNotExpired());
+        return tokenNotExpired();
     }
+
     public isMaps(path: string){
         var titlee = this.location.prepareExternalUrl(this.location.path());
         titlee = titlee.slice( 1 );

@@ -35,18 +35,33 @@ export class UserService {
     // }
     
     // send username/password and get the token
-  login(password: string, username = "", email = ""): Observable<any> {
+  logIn(password: string, username?: string, email?: string): Observable<any> {
     let options: RequestOptions = new RequestOptions({
       headers: new Headers({ 'Content-Type': 'application/json' })
     });
+    let user_data = {
+        "password": password
+    };
+    if (username) {
+        user_data["username"] = username;
+    }
+    if (email) {
+        user_data["email"] = email;
+    }
     return this.http
         .post(APP_SERVER + 'auth/login',
-        JSON.stringify({ 'username': username, 'email': email, 'password': password }),
+        JSON.stringify(user_data),
         options)
         .map((response: Response) => response.json())
         .do(data=> console.log('USer Data: ' + JSON.stringify(data)))
         .catch(this.handleError);
   }
+
+  getLoggedInUser(){
+        let token = localStorage.getItem('token');
+        let jwtHelper: JwtHelper = new JwtHelper();
+        return `decoded: ${JSON.stringify(jwtHelper.decodeToken(token))}`;              
+    }
     // registerUser(): Observable<any> {
     //     let headers = new Headers();
     //     this.createAuthorizationHeader(headers);
