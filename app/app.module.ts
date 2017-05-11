@@ -1,3 +1,4 @@
+import { NotFoundComponent } from './404/not-found.component';
 import { NotificationsComponent } from './dashboard/notifications/notifications.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth/auth-guard.service';
@@ -32,11 +33,11 @@ import { RegisterComponent } from "./register/register.component";
             { path: 'login', component: LoginComponent },
             { path: 'register', component: RegisterComponent },
             { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: '**', component: NotificationsComponent }
+            { path: '**', component: NotFoundComponent }
         ])
     ],
     declarations: [ AppComponent, DashboardComponent, HomeComponent,
-    LoginComponent, RegisterComponent],
+    LoginComponent, RegisterComponent, NotFoundComponent],
     providers: [ 
     provideAuth({
       headerPrefix: 'JWT'
