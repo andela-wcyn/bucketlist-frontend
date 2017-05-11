@@ -1,3 +1,5 @@
+import { NotificationsComponent } from './dashboard/notifications/notifications.component';
+import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth/auth-guard.service';
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,7 +15,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule} from './shared/navbar/navbar.module';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { LoginComponent } from "./login/login.component";
+import { RegisterComponent } from "./register/register.component";
 
 @NgModule({
     imports:      [
@@ -24,10 +27,17 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
         SidebarModule,
         NavbarModule,
         FooterModule,
-        RouterModule.forRoot([])
+        RouterModule.forRoot([
+            { path: '', component: HomeComponent },
+            { path: 'login', component: LoginComponent },
+            { path: 'register', component: RegisterComponent },
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
+            { path: '**', component: NotificationsComponent }
+        ])
     ],
-    declarations: [ AppComponent, DashboardComponent],
-    providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, 
+    declarations: [ AppComponent, DashboardComponent, HomeComponent,
+    LoginComponent, RegisterComponent],
+    providers: [ 
     provideAuth({
       headerPrefix: 'JWT'
     }), AuthGuard],

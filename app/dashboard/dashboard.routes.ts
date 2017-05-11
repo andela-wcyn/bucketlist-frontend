@@ -9,27 +9,25 @@ import { TableComponent } from './table/table.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { TypographyComponent } from './typography/typography.component';
 import { UpgradeComponent } from './upgrade/upgrade.component';
-import { UnauthorizedComponent } from "./unauthorized/unauthorized.component";
 
-export const MODULE_ROUTES: Route[] =[
-    { path: 'dashboard', component: BucketlistsComponent, canActivate: [AuthGuard] },
+export const MODULE_ROUTES: Route[] = [ 
+    { path: 'bucketlists', component: BucketlistsComponent, canActivate: [AuthGuard] },
+    { path: 'bucketlists/:id', component: BucketlistItemsComponent, canActivate: [AuthGuard] },
     { path: 'user', component: UserComponent},
     { path: 'table', component: TableComponent },
     { path: 'icons', component: IconsComponent },
     { path: 'notifications', component: NotificationsComponent },
     { path: 'typography', component: TypographyComponent },
     { path: 'upgrade', component: UpgradeComponent },
-    { path: 'unauthorized', component: UnauthorizedComponent },
-    { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ]
 
 export const MODULE_COMPONENTS = [
     BucketlistsComponent,
+    BucketlistItemsComponent,
     UserComponent,
     TableComponent,
     IconsComponent,
     NotificationsComponent,
     TypographyComponent,
-    UpgradeComponent,
-    UnauthorizedComponent
+    UpgradeComponent
 ]

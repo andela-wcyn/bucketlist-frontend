@@ -34,42 +34,58 @@ export class UserService {
     //                 .catch(this.handleError);
     // }
     
-    // send username/password and get the token
-  logIn(password: string, username?: string, email?: string): Observable<any> {
-    let options: RequestOptions = new RequestOptions({
-      headers: new Headers({ 'Content-Type': 'application/json' })
-    });
-    let user_data = {
-        "password": password
-    };
-    if (username) {
-        user_data["username"] = username;
+    // send username/email and password and get the token
+    logIn(password: string, username?: string, email?: string): Observable<any> {
+        let options: RequestOptions = new RequestOptions({
+        headers: new Headers({ 'Content-Type': 'application/json' })
+        });
+        let user_data = {
+            "password": password
+        };
+        if (username) {
+            user_data["username"] = username;
+        }
+        if (email) {
+            user_data["email"] = email;
+        }
+        return this.http
+            .post(APP_SERVER + 'auth/login',
+            JSON.stringify(user_data),
+            options)
+            .map((response: Response) => response.json())
+            .do(data=> console.log('USer Data: ' + JSON.stringify(data)))
+            .catch(this.handleError);
     }
-    if (email) {
-        user_data["email"] = email;
-    }
-    return this.http
-        .post(APP_SERVER + 'auth/login',
-        JSON.stringify(user_data),
-        options)
-        .map((response: Response) => response.json())
-        .do(data=> console.log('USer Data: ' + JSON.stringify(data)))
-        .catch(this.handleError);
-  }
 
-  getLoggedInUser(){
+    // send user details and create user
+    registerUser(password: string, username?: string, email?: string): Observable<any> {
+        let options: RequestOptions = new RequestOptions({
+        headers: new Headers({ 'Content-Type': 'application/json' })
+        });
+        let user_data = {
+            "password": password
+        };
+        if (username) {
+            user_data["username"] = username;
+        }
+        if (email) {
+            user_data["email"] = email;
+        }
+        return this.http
+            .post(APP_SERVER + 'auth/login',
+            JSON.stringify(user_data),
+            options)
+            .map((response: Response) => response.json())
+            .do(data=> console.log('USer Data: ' + JSON.stringify(data)))
+            .catch(this.handleError);
+    }
+
+    getLoggedInUser(){
         let token = localStorage.getItem('token');
         let jwtHelper: JwtHelper = new JwtHelper();
         return `decoded: ${JSON.stringify(jwtHelper.decodeToken(token))}`;              
     }
-    // registerUser(): Observable<any> {
-    //     let headers = new Headers();
-    //     this.createAuthorizationHeader(headers);
-    //     return this._http.get(this._loginUrl, {headers: headers})
-    //                 .map((response: Response) => <any>response.json().data[0])
-    //                 .do(data=> console.log('All: ' + JSON.stringify(data)))
-    //                 .catch(this.handleError);
-    // }
+
 
     private handleError (error: Response) {
         console.log(error);

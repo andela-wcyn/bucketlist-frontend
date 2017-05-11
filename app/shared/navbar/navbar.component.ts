@@ -3,7 +3,7 @@ import { UserService } from '../../dashboard/user/user.service';
 import { Component, OnInit } from '@angular/core';
 import { ROUTES } from '../.././sidebar/sidebar-routes.config';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
-import { JwtHelper } from "angular2-jwt";
+import { JwtHelper, tokenNotExpired } from "angular2-jwt";
 
 @Component({
     moduleId: module.id,
@@ -15,22 +15,32 @@ import { JwtHelper } from "angular2-jwt";
 export class NavbarComponent implements OnInit{
     private listTitles: any[];
     location: Location;
-    user: any = "Guest";
+    user: any = {"username": "(Guest)"};
     constructor(location:Location, private _router: Router) {
         this.location = location;
         this._router.events.subscribe((val: NavigationEnd) => {
             // see also 
             let token = localStorage.getItem('token');
             console.log("token: ", token)
-            let jwtHelper: JwtHelper = new JwtHelper();
-            this.user = `${JSON.stringify(jwtHelper.decodeToken(token))}`        
-            this.user = JSON.parse(this.user);
-            console.log("Routed USer!: " + this.user.username);
-            console.log(val instanceof NavigationEnd )
-            console.log(val instanceof NavigationEnd) 
-    });
-}
+            if (token) {
+                let jwtHelper: JwtHelper = new JwtHelper();
+                this.user = `${JSON.stringify(jwtHelper.decodeToken(token))}`        
+                this.user = JSON.parse(this.user);
+                console.log("Routed Users: " + this.user.username);
+                console.log(val instanceof NavigationEnd )
+            }
+        });
+    }
+    logout() {
+        // Log the user out by deleting their token from storage
+        localStorage.removeItem("token");
+        console.log("Logged out! ");
+    }
 
+    loggedIn() {
+        return tokenNotExpired();
+    }
+    
     ngOnInit(){
         this.listTitles = ROUTES.filter(listTitle => listTitle);
     }
@@ -44,7 +54,7 @@ export class NavbarComponent implements OnInit{
                 return this.listTitles[item].title;
             }
         }
-        return 'Dashboard';
+        return 'Buzz Buckets';
     }
 
 }
