@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, trigger, state, style, transition, animate } from '@angular/core';
 import { IBucketlistItem } from './bucketlist-items';
 declare var $:any;
@@ -17,6 +18,10 @@ export class BucketlistItemsComponent implements OnInit{
     items : IBucketlistItem​​[] = [
 
     ]
+    constructor(private _route: ActivatedRoute){
+        console.log(JSON.stringify(this._route.snapshot.params["id"]));
+
+    }
     ngOnInit(){
         // $('[data-toggle="checkbox"]').each(function () {
         //     if($(this).data('toggle') == 'switch') return;

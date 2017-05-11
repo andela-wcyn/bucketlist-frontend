@@ -12,7 +12,7 @@ import { UpgradeComponent } from './upgrade/upgrade.component';
 
 export const MODULE_ROUTES: Route[] = [ 
     { path: 'bucketlists', component: BucketlistsComponent},
-    { path: 'bucketlists/:id', component: BucketlistItemsComponent, canActivate: [AuthGuard] },
+    { path: 'bucketlists/:id', component: BucketlistItemsComponent}, // canActivate: [AuthGuard] 
     { path: 'user', component: UserComponent},
     { path: 'table', component: TableComponent },
     { path: 'icons', component: IconsComponent },
