@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ROUTES } from './sidebar-routes.config';
 
-declare var $:any;
+declare let $:any;
 @Component({
     moduleId: module.id,
     selector: 'sidebar-cmp',

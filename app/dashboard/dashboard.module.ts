@@ -1,18 +1,16 @@
-import { UserService } from './user/user.service';
+import { BucketlistItemGuard } from './bucketlist-items/bucketlist-item.service.guard';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { MODULE_COMPONENTS, MODULE_ROUTES } from './dashboard.routes';
-import { CommonModule } from '@angular/common';
+import { MODULE_COMPONENTS, DASHBOARD_MODULE_ROUTES } from './dashboard.routes';
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
     imports: [
-        CommonModule,
-        BrowserModule,
-        RouterModule.forChild(MODULE_ROUTES)
+        SharedModule,
+        RouterModule.forChild(DASHBOARD_MODULE_ROUTES)
     ],
     declarations: [ MODULE_COMPONENTS ],
-    providers: [UserService]
+    providers: [ BucketlistItemGuard ]
 })
 
 export class DashboardModule{}

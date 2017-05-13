@@ -14,15 +14,15 @@ export class BucketlistItemsComponent implements OnInit{
         {"id": 1,"color": "blue"},
         {"id": 2,"color": "yellow"},
         {"id": 3,"color": "red"}
-                    ]
+    ]
     items : IBucketlistItem​​[] = [
-
     ]
     constructor(private _route: ActivatedRoute){
-        console.log(JSON.stringify(this._route.snapshot.params["id"]));
-
+        
     }
     ngOnInit(){
+        let id = +this._route.snapshot.params["id"];
+
         // $('[data-toggle="checkbox"]').each(function () {
         //     if($(this).data('toggle') == 'switch') return;
         //

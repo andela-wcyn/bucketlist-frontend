@@ -7,10 +7,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { APP_SERVER } from "../shared/shared.module";
 
-const APP_SERVER = 'http://localhost:5000/api/v1/';
-const USERNAME = 'molly';
-const PASSWORD = '1234567';
+
 
 @Injectable()
 export class UserService {
@@ -22,7 +21,7 @@ export class UserService {
     //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNDk0NDIwOTI5LCJpYXQiOjE0OTQzOTA5MjksIm5iZiI6MTQ5NDM5MDkyOX0.MzCiFAmVRu5btXqzI0kJIkCsV5qjmkuYph9FS-FMZIE"); 
     // }
 
-    constructor(private http: Http,
+    constructor(private _http: Http,
               private authHttp: AuthHttp) {}
 
     // logIn(): Observable<any> {
@@ -48,7 +47,7 @@ export class UserService {
         if (email) {
             user_data["email"] = email;
         }
-        return this.http
+        return this._http
             .post(APP_SERVER + 'auth/login',
             JSON.stringify(user_data),
             options)
@@ -71,12 +70,12 @@ export class UserService {
         if (email) {
             user_data["email"] = email;
         }
-        return this.http
-            .post(APP_SERVER + 'auth/login',
+        return this._http
+            .post(APP_SERVER + 'auth/register',
             JSON.stringify(user_data),
             options)
             .map((response: Response) => response.json())
-            .do(data=> console.log('USer Data: ' + JSON.stringify(data)))
+            .do(data=> console.log('Register Data: ' + JSON.stringify(data)))
             .catch(this.handleError);
     }
 

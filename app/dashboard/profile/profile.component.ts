@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
     selector: 'user-cmp',
     moduleId: module.id,
-    templateUrl: 'user.component.html'
+    templateUrl: 'profile.component.html'
 })
 
-export class UserComponent implements OnInit{
+export class ProfileComponent implements OnInit{
     ngOnInit(){
         // $.getScript('../../../assets/js/material-dashboard.js');
 

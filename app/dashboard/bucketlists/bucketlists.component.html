@@ -6,9 +6,13 @@
                     <div class="card card-stats" >
                 
                         <div class="card-content">
-                            <h3 class="title">{{ bucketlist.description }}</h3>
+                            <h3 class="title">
+                                <a [routerLink]="['bucketlists', bucketlist.id]">
+                                    {{ bucketlist.description }}
+                                </a>        
+                            </h3>
                             <p class="category">Items: {{ bucketlist.item_count }}</p>
-                            <a [routerLink]="['bucketlists', bucketlist.id]"></a>
+                            
                         </div>
                         <div class="card-footer">
                             <div class="stats">

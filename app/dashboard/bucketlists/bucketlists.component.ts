@@ -29,7 +29,7 @@ export class BucketlistsComponent implements OnInit{
         // Retrieve all the bucketlists
         this._bucketlistService.getBucketlists()
             .subscribe(
-                bucketlists => this.bucketlists = bucketlists,
+                bucketlists => this.bucketlists = bucketlists.data[0],
                 error => this.errorMessage = <any>error);
     }
 }

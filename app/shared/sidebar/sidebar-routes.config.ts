@@ -2,7 +2,6 @@ import {  RouteInfo } from './sidebar.metadata';
 
 export const ROUTES: RouteInfo[] = [
     { path: 'bucketlists', title: 'My Bucketlists',  icon: 'dashboard', class: '' },
-    // { path: 'bucketlists/:id', title: 'To Do',  icon: 'dashboard', class: '' },
     { path: 'user', title: 'My Profile',  icon:'person', class: '' },
     { path: 'table', title: 'Table List',  icon:'content_paste', class: '' },
     { path: 'typography', title: 'Typography',  icon:'library_books', class: '' },
