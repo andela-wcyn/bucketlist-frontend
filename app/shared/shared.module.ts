@@ -6,6 +6,7 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 
 export const APP_SERVER = 'http://localhost:5000/api/v1/';
+export const NO_SIDEBAR_ROUTES: string[] = ["", "/login", "/register"] ;
 
 @NgModule({
     imports: [

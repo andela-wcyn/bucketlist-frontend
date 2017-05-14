@@ -1,4 +1,4 @@
-import { IBucketlistItem } from '../bucketlist-items/bucketlist-items';
+import { IBucketlistItem } from '../bucketlist-items/bucketlist-item';
 
 export interface IBucketlist {
     id: number;

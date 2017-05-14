@@ -16,10 +16,10 @@ import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
     imports:      [
-        BrowserModule,
         HttpModule,
-        AuthModule,
         DashboardModule,
+        AuthModule,
+        BrowserModule,
         SharedModule,
         RouterModule.forRoot([
             { path: '', component: HomeComponent },

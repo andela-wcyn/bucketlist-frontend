@@ -16,11 +16,12 @@
 
 
 $(document).ready(function(){
+    console.log("Moving tab now4!!!");
     $moving_tab = $('<div class="moving-tab"/>');
     $('.sidebar .nav-container').append($moving_tab);
 
     $this = $('.sidebar .nav').find('li.active a');
-    animationSidebar($this, false);
+    animationSidebar($this, true);
     $('div').removeClass('.moving-tab');
     if (window.history && window.history.pushState) {
 
@@ -50,20 +51,26 @@ $('.sidebar .nav > li > a').click(function(){
 });
 
 function animationSidebar($this, animate){
-    // console.log('incep animatia si butonul pe care sunt acum este:', $this[0].href );
 
-    $current_li_distance = $this.parent('li').position().top - 10;
+    if ($this.parent('li').position()) {
+        // console.log("TOOOP!!!");
+        $current_li_distance = $this.parent('li').position().top - 10;
+    } else {
+        $current_li_distance = 50;
+    }
 
     button_text = $this.html();
 
-    $(".moving-tab").css("width", 230 + "px");
+    $(".moving-tab").css({
+        'width': 230 + "px"
+    });
 
     if(animate){
         $('.moving-tab').css({
             'transform':'translate3d(0,' + $current_li_distance + 'px, 0)',
             'transition': 'all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1)'
         });
-    }else{
+    } else {
         $('.moving-tab').css({
             'transform':'translate3d(0,' + $current_li_distance + 'px, 0)'
         });

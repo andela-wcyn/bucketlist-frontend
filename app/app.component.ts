@@ -7,6 +7,7 @@ import { AuthHttp, tokenNotExpired } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 
 import { BucketlistService } from './dashboard/bucketlists/bucketlists.service';
+import {NO_SIDEBAR_ROUTES} from "./shared/shared.module";
 
 declare let $:any;
 
@@ -21,7 +22,6 @@ export class AppComponent implements OnInit{
     location: Location;
     private messages: Array<string> = [];
     private show_sidebar: boolean = false;
-    private no_sidebar_routes: string[] = ["", "/login", "/register"] ;
     errorMessage: any;
     token_expired: any;
     user: any;
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit{
         // console.log("path alias: " + alias); 
         let path = this.location.path()
         console.log("path: " + path); 
-        if (this.no_sidebar_routes.includes(path)) {
+        if (NO_SIDEBAR_ROUTES.includes(path)) {
             console.log("YAya!! Path!: ", path);
             this.show_sidebar = false;
         } else {

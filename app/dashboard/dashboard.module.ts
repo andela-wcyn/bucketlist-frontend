@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MODULE_COMPONENTS, DASHBOARD_MODULE_ROUTES } from './dashboard.routes';
 import { SharedModule } from "../shared/shared.module";
+import { BucketlistService } from "./bucketlists/bucketlists.service";
+import { BucketlistItemsService } from "./bucketlist-items/bucketlist-items.service";
 
 @NgModule({
     imports: [
@@ -10,7 +12,7 @@ import { SharedModule } from "../shared/shared.module";
         RouterModule.forChild(DASHBOARD_MODULE_ROUTES)
     ],
     declarations: [ MODULE_COMPONENTS ],
-    providers: [ BucketlistItemGuard ]
+    providers: [ BucketlistItemGuard, BucketlistService, BucketlistItemsService ]
 })
 
 export class DashboardModule{}

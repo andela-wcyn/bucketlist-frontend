@@ -14,7 +14,7 @@ import { ProfileComponent } from "./profile/profile.component";
 export const DASHBOARD_MODULE_ROUTES: Route[] = [ 
     { path: 'bucketlists', component: BucketlistsComponent},
     { path: 'bucketlists/:id', component: BucketlistItemsComponent,
-        canActivate: [BucketlistItemGuard]}, // canActivate: [AuthGuard] 
+        canActivate: [BucketlistItemGuard]}, // canActivate: [AuthGuard]
     { path: 'profile', component: ProfileComponent},
     { path: 'table', component: TableComponent },
     { path: 'icons', component: IconsComponent },

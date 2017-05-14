@@ -1,24 +1,26 @@
 import { IBucketlist } from './bucketlist';
 import { BucketlistService } from './bucketlists.service';
-import { Component, OnInit, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-declare var $:any;
+declare let $:any;
 
 @Component({
     selector: 'bucketlists-cmp',
     moduleId: module.id,
-    templateUrl: 'bucketlists.component.html',
-    providers: [BucketlistService]
+    templateUrl: 'bucketlists.component.html'
 })
 
-export class BucketlistsComponent implements OnInit{
-    bucketlists : IBucketlist[];
-    errorMessage : string;
+export class BucketlistsComponent implements OnInit {
+    bucketlists: IBucketlist[];
+    errorMessage: string;
     // Dependency Injection
-    constructor(private _bucketlistService: BucketlistService){
-         
+    constructor(private _bucketlistService: BucketlistService) {
+
     }
-    ngOnInit(): void{
+
+    ngOnInit(): void {
+
+        // location.reload();
         // $('[data-toggle="checkbox"]').each(function () {
         //     if($(this).data('toggle') == 'switch') return;
         //
@@ -29,7 +31,15 @@ export class BucketlistsComponent implements OnInit{
         // Retrieve all the bucketlists
         this._bucketlistService.getBucketlists()
             .subscribe(
-                bucketlists => this.bucketlists = bucketlists.data[0],
+                bucketlists => this.bucketlists = bucketlists,
                 error => this.errorMessage = <any>error);
+    }
+
+    createBucketlist() {
+        let dialogRef = dialog.open(UserProfileComponent, {
+            height: '400px',
+            width: '600px',
+        });
+
     }
 }

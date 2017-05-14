@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {Location} from '@angular/common';
 import { JwtHelper, tokenNotExpired } from "angular2-jwt";
 import {ROUTES} from "../sidebar/sidebar-routes.config";
+import {NO_SIDEBAR_ROUTES} from "../shared.module";
 
 @Component({
     moduleId: module.id,
@@ -51,7 +52,12 @@ export class NavbarComponent implements OnInit{
                 return this.listTitles[item].title;
             }
         }
-        return 'Buzz Buckets';
+        let path = this.location.path()
+        if (NO_SIDEBAR_ROUTES.includes(path)) {
+            return 'Buzz Buckets';
+        } else {
+            return '';
+        }
     }
 
 }

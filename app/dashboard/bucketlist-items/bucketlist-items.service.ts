@@ -6,26 +6,25 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 
-import { IBucketlist } from './bucketlist';
 import { APP_SERVER } from "../../shared/shared.module";
 import { AuthHttp } from "angular2-jwt";
-
+import { IBucketlist } from "../bucketlists/bucketlist";
 
 @Injectable()
-export class BucketlistService {
+export class BucketlistItemsService {
     constructor(public authHttp: AuthHttp) {}
 
-    getBucketlists(): Observable<IBucketlist[]> {
+    getBucketlistItems(id: number): Observable<IBucketlist> {
         let options: RequestOptions = new RequestOptions({
             headers: new Headers({ 'Content-Type': 'application/json' })
         });
 
         return this.authHttp
-            .get(APP_SERVER + 'bucketlists/', options)
-            .map((response: Response) => response.json().data[0])
-            .do((data: string) => console.log('Got bucketlists Data: ',
-                JSON.stringify(data[0])))
-            .catch(BucketlistService.handleError);
+            .get(APP_SERVER + 'bucketlists/' + id, options)
+            .map((response: Response) => response.json().data.bucketlist)
+            .do((data: string) => console.log('Got bucketlistItems Data: ',
+                JSON.stringify(data)))
+            .catch(BucketlistItemsService.handleError);
     }
 
     // createBucketlist(bucketlist_data: object): Observable<IBucketlist> {
