@@ -13,6 +13,7 @@ import {IBucketlistItem} from "../bucketlist-items/bucketlist-item";
 import {DataObjectsService} from "../data-objects.service";
 import {ConfirmDialogComponent} from "../../shared/dialog/confirm-dialog.component";
 import {EditBucketlistComponent} from "./edit-bucketlist.component";
+import {SearchQueryService} from "../../shared/navbar/search-query.service";
 
 declare let $:any;
 
@@ -25,11 +26,17 @@ declare let $:any;
 export class BucketlistsComponent implements OnInit {
     bucketlists: IBucketlist[];
     errorMessage: string;
+    pages: number[];
+    limit: number = 5;
+    query: string = "";
+    currentPage: number = 1;
+
     // Dependency Injection
     constructor(private _bucketlistService: BucketlistService,
                 private _dialogService: ConfirmDialogService,
                 private _toastyService: ToastyService,
                 private _toastyConfig: ToastyConfig,
+                private _searchQueryService: SearchQueryService,
                 private _dos: DataObjectsService,
                 public modal: Modal,
                 vcRef: ViewContainerRef) {
@@ -38,13 +45,7 @@ export class BucketlistsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
-        this._bucketlistService.getBucketlists()
-            .subscribe(
-                bucketlists => {
-                    this.bucketlists = bucketlists
-                },
-                error => this.errorMessage = <any>error);
+        this.getBucketlists(this.currentPage, this.query, this.limit);
         this._bucketlistService.newBucketlist.subscribe(
             (data) => {
                 this.bucketlists.push(data);
@@ -56,11 +57,60 @@ export class BucketlistsComponent implements OnInit {
             });
         this._bucketlistService.queriedBucketlists.subscribe(
             (data) => {
-                this.bucketlists = data;
+                this.bucketlists = data.data[0];
+                this.pages = this.createNumList(1, Math.ceil(data.total / this.limit) + 1);
+                console.log("Pages: ", this.pages);
+            });
+        this._searchQueryService.query.subscribe(
+            (data) => {
+                this.query = data;
             });
 
     }
 
+    createNumList(start, end){
+        let numList: number[] = [];
+        for (let i = start; i < end; i++) {
+            numList.push(i);
+        }
+        return numList;
+    }
+
+    getBucketlists(page: number, query=this.query, limit=this.limit) {
+        this._bucketlistService.getBucketlists(query, page, limit)
+            .subscribe(
+                bucketlists => {
+                    this.bucketlists = bucketlists.data[0];
+                    this.currentPage = page;
+                    this.pages = this.createNumList(1, Math.ceil(bucketlists.total / this.limit) + 1);
+                    console.log("Pages get: ", this.pages);
+                },
+                error => this.errorMessage = <any>error);
+    }
+
+    getFirstPage(){
+        console.log("Query?", this.query);
+        this.getBucketlists(1, this.query, this.limit);
+    }
+
+    getLastPage(){
+        console.log("Query?", this.query);
+        this.getBucketlists(this.pages[this.pages.length-1], this.query, this.limit);
+    }
+
+    getNextPage(){
+        console.log("Query?", this.query);
+        if (this.currentPage < this.pages[this.pages.length-1]) {
+            this.getBucketlists(this.currentPage + 1, this.query, this.limit);
+        }
+    }
+
+    getPreviousPage(){
+        console.log("Query?", this.query);
+        if (this.currentPage > this.pages[0]) {
+            this.getBucketlists(this.currentPage - 1, this.query, this.limit);
+        }
+    }
     createBucketlist() {
         return this.modal.open(CreateBucketlistComponent,
             overlayConfigFactory({}, BSModalContext));
