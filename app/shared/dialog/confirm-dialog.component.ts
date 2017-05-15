@@ -3,8 +3,6 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ToastOptions, ToastyService} from "ng2-toasty";
-import {ActivatedRoute, Router} from "@angular/router";
 import {ConfirmDialogService} from "./confirm-dialog.service";
 
 export class CustomModalContext extends BSModalContext {}
@@ -19,9 +17,7 @@ export class ConfirmDialogComponent implements OnInit, CloseGuard, ModalComponen
 
 
     constructor(public dialog: DialogRef<CustomModalContext>,
-                private _fb: FormBuilder, private _router: Router,
-                private _toastyService: ToastyService,
-                private _route: ActivatedRoute,
+                private _fb: FormBuilder,
                 private _confirmDialogService: ConfirmDialogService) {
         this.context = dialog.context;
     }

@@ -55,7 +55,6 @@ export class CreateBucketlistComponent implements OnInit, CloseGuard, ModalCompo
         this._bucketlistService.createBucketlist(bucketlistData)
             .subscribe(
                 (data) => {
-                    console.log("Success create: ", data);
                     this.dialog.close();
                     let toastOptions: ToastOptions = {
                         title: "",

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 
 import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
@@ -13,21 +13,21 @@ export class CustomModalContext extends BSModalContext {}
 @Component({
     selector: 'modal-content',
     moduleId: module.id,
-    templateUrl: 'create-bucketlist-item.component.html',
+    templateUrl: 'edit-bucketlist-item.component.html',
 })
-export class CreateBucketlistItemComponent implements OnInit, CloseGuard, ModalComponent<CustomModalContext> {
+export class EditBucketlistItemComponent implements OnInit, CloseGuard, ModalComponent<CustomModalContext> {
     bucketlistItemForm: FormGroup;
 
 
     constructor(public dialog: DialogRef<CustomModalContext>,
                 private _bucketlistService: BucketlistItemsService,
-                private _fb: FormBuilder, private _router: Router,
+                private _fb: FormBuilder,
                 private _toastyService: ToastyService, private _route: ActivatedRoute) {
         this.context = dialog.context;
     }
     ngOnInit(): void {
         this.bucketlistItemForm = this._fb.group({
-            description: ['', [ <any>Validators.required,
+            description: [this.context.description, [ <any>Validators.required,
                 <any>Validators.maxLength(100)]]
         });
     }
@@ -44,23 +44,23 @@ export class CreateBucketlistItemComponent implements OnInit, CloseGuard, ModalC
         this.dialog.close();
     }
 
-    create(model: IBucketlistItemNew, isValid: boolean) {
+    edit(model: IBucketlistItemNew, isValid: boolean) {
         let bucketlist_id = this._route.snapshot.params["id"]
         this.submitted = true;
         console.log(model, isValid);
         if (isValid){
-            this.createBucketlistItem(model, bucketlist_id);
+            this.editBucketlistItem(model, bucketlist_id);
         }
     }
 
-    createBucketlistItem(bucketlistItemData: object, bucketlist_id: number) {
-        this._bucketlistService.createBucketlistItem(bucketlistItemData, bucketlist_id)
+    editBucketlistItem(bucketlistItemData: object, bucketlist_id: number) {
+        this._bucketlistService.editBucketlistItem(bucketlistItemData, bucketlist_id, item_id)
             .subscribe(
                 (data) => {
                     this.dialog.close();
                     let toastOptions: ToastOptions = {
                         title: "",
-                        msg: "Bucketlist Item Successfully created",
+                        msg: "Bucketlist Item Successfully Edited",
                         showClose: true,
 
                     };

@@ -25,8 +25,7 @@ export class BucketlistService {
         return this.authHttp
             .get(APP_SERVER + 'bucketlists/', options)
             .map((response: Response) => response.json().data[0])
-            .do((data: string) => console.log('Got bucketlists Data: ',
-                JSON.stringify(data[0])))
+            .do((data: string) => console.log('Got bucketlists Data: '))
             .catch(BucketlistService.handleError);
     }
 

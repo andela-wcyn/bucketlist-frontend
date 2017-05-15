@@ -16,7 +16,6 @@
 
 
 $(document).ready(function(){
-    console.log("Moving tab now4!!!");
     $moving_tab = $('<div class="moving-tab"/>');
     $('.sidebar .nav-container').append($moving_tab);
 
@@ -25,13 +24,9 @@ $(document).ready(function(){
     $('div').removeClass('.moving-tab');
     if (window.history && window.history.pushState) {
 
-        // console.log('sunt in window.history');
         $(window).on('popstate', function() {
 
-            // console.log('am apasat pe back, locatia noua: ', window.location.pathname);
-
             setTimeout(function(){
-                // console.log('incep animatia cu 1ms delay');
                 $this = $('.sidebar .nav').find('li.active a');
                 animationSidebar($this,true);
             },1);
@@ -53,7 +48,6 @@ $('.sidebar .nav > li > a').click(function(){
 function animationSidebar($this, animate){
 
     if ($this.parent('li').position()) {
-        // console.log("TOOOP!!!");
         $current_li_distance = $this.parent('li').position().top - 10;
     } else {
         $current_li_distance = 50;

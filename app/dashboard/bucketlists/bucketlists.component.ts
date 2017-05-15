@@ -45,19 +45,12 @@ export class BucketlistsComponent implements OnInit {
             .subscribe(
                 bucketlists => {
                     this.bucketlists = bucketlists
-                    console.log("Bucketlists: ", this.bucketlists)
                 },
                 error => this.errorMessage = <any>error);
         this._bucketlistService.newBucketlist.subscribe(
             (data) => {
-                console.log("Subscribed!!", data);
                 this.bucketlists.push(data);
             })
-        this._dialogService.confirm.subscribe((data: boolean) =>
-        {
-            console.log("Confirm in service? ", data);
-
-        });
     }
 
     createBucketlist() {

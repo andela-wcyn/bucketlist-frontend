@@ -13,25 +13,8 @@ import { APP_SERVER } from "../shared/shared.module";
 
 @Injectable()
 export class UserService {
-    private messages: Array<string> = [];
-    private _loginUrl = 'http://127.0.0.1:5000/api/v1/auth/login/'
-    private _registrationUrl = 'http://127.0.0.1:5000/api/v1/auth/register/'
-    // createAuthorizationHeader(headers: Headers) {
-    //     headers.append('Authorization', 'JWT ' +
-    //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNDk0NDIwOTI5LCJpYXQiOjE0OTQzOTA5MjksIm5iZiI6MTQ5NDM5MDkyOX0.MzCiFAmVRu5btXqzI0kJIkCsV5qjmkuYph9FS-FMZIE"); 
-    // }
 
-    constructor(private _http: Http,
-              private authHttp: AuthHttp) {}
-
-    // logIn(): Observable<any> {
-    //     let headers = new Headers();
-    //     this.createAuthorizationHeader(headers);
-    //     return this._http.get(this._loginUrl, {headers: headers})
-    //                 .map((response: Response) => <any>response.json().data[0])
-    //                 .do(data=> console.log('All: ' + JSON.stringify(data)))
-    //                 .catch(this.handleError);
-    // }
+    constructor(private _http: Http) {}
     
     // send username/email and password and get the token
     logIn( password: string, username: string): Observable<any> {
@@ -71,7 +54,7 @@ export class UserService {
             JSON.stringify(user_data),
             options)
             .map((response: Response) => response.json())
-            .do(data=> console.log('Register Data: ' + JSON.stringify(data)))
+            .do(data=> console.log('Registered Data: ' + JSON.stringify(data)))
             .catch(this.handleError);
     }
 

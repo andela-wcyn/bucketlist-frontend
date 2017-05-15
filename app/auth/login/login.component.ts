@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit{
                 <any>Validators.maxLength(100)]],
             password: ['', [ <any>Validators.required]]
         });
-        console.log("Token expired? " + this.token_expired);
     }
     
     constructor(private _userservice: UserService,
@@ -39,7 +38,6 @@ export class LoginComponent implements OnInit{
                     (data) => {
                     // save the token in local storage
                     let token = data.token;
-                    console.log("User Token: " + token);
                     let jwtHelper: JwtHelper = new JwtHelper();
                     localStorage.setItem('token', token);
                     this.messages.push(`Login successful, token saved.`);

@@ -19,14 +19,11 @@ export class NavbarComponent implements OnInit{
         this._router.events.subscribe((val: NavigationEnd) => {
             // see also 
             let token = localStorage.getItem('token');
-            console.log("token here: ", token)
             if (token) {
                 let jwtHelper: JwtHelper = new JwtHelper();
                 if (tokenNotExpired()) {
                     this.user = `${JSON.stringify(jwtHelper.decodeToken(token))}`
                     this.user = JSON.parse(this.user);
-                    console.log("Routed Users: " + this.user.username);
-                    console.log(val instanceof NavigationEnd)
                 }
             }
         });
@@ -34,7 +31,6 @@ export class NavbarComponent implements OnInit{
     logout() {
         // Log the user out by deleting their token from storage
         localStorage.removeItem("token");
-        console.log("Logged out! ");
     }
 
     loggedIn() {

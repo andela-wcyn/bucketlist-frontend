@@ -39,7 +39,6 @@ export class RegisterComponent implements OnInit{
                     (data) => {
                     // save the token in local storage
                     let token = data.token;
-                    console.log("User Token: " + token);
                     let jwtHelper: JwtHelper = new JwtHelper();
                     localStorage.setItem('token', token);
                     this.messages.push(`register successful, token saved.`);

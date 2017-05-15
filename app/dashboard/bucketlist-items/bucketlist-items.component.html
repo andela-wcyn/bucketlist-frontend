@@ -40,14 +40,14 @@
                                             <td class="col-sm-1">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" name="optionsCheckboxes" [checked]="item.done">
+                                                        <input type="checkbox" (click)="setItemDone($event)" name="optionsCheckboxes" [checked]="item.done">
                                                     </label>
                                                 </div>
                                             </td>
                                             <td class="col-sm-9">{{ item.description }}
                                             </td>
                                             <td class="td-actions text-right col-sm-2">
-                                                <button (click)="editBucketlistItem(item.id)" type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                                <button (click)="editBucketlistItem(bucketlist.id, item.id, item)" type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
                                                     <i class="material-icons">edit</i>
                                                 </button>
                                                 <button (click)="deleteBucketlistItem(bucketlist.id, item.id)" type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">

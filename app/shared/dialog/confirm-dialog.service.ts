@@ -12,8 +12,4 @@ export class ConfirmDialogService {
     set confirmAction(value: boolean) {
         this.confirm.emit(value);
     }
-    // public setConfirm(confirm: boolean): void {
-    //     this.confirm.emit(confirm);
-    //     console.log("Emitted: ", confirm);
-    // }
 }

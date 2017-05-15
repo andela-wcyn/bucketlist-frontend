@@ -23,8 +23,7 @@ export class BucketlistItemsService {
         return this.authHttp
             .get(APP_SERVER + 'bucketlists/' + id, options)
             .map((response: Response) => response.json().data.bucketlist)
-            .do((data: string) => console.log('Got bucketlistItems Data: ',
-                JSON.stringify(data)))
+            .do((data: string) => console.log('Got bucketlistItems Data'))
             .catch(BucketlistItemsService.handleError);
     }
 
@@ -44,6 +43,23 @@ export class BucketlistItemsService {
             .catch(BucketlistItemsService.handleError);
     }
 
+    editBucketlistItem(bucketlist_item_data: object, bucketlist_id: number, item_id: number):
+        Observable<IBucketlist> {
+        let options: RequestOptions = new RequestOptions({
+            headers: new Headers({ 'Content-Type': 'application/json' })
+        });
+
+        return this.authHttp
+            .put(APP_SERVER + 'bucketlists/' + bucketlist_id + "/" + item_id,
+                JSON.stringify(bucketlist_item_data),
+                options)
+            .map((response: Response) => response.json())
+            .do((data: string) => {
+                this.newBucketlistItem.emit(data);
+            })
+            .catch(BucketlistItemsService.handleError);
+    }
+
     deleteBucketlistItem(id: number, item_id: number): Observable<object> {
         let options: RequestOptions = new RequestOptions({
             headers: new Headers({ 'Content-Type': 'application/json' })
@@ -52,8 +68,7 @@ export class BucketlistItemsService {
         return this.authHttp
             .delete(APP_SERVER + 'bucketlists/' + id + '/' + item_id, options)
             .map((response: Response) => response.json().message)
-            .do((data: any) => console.log('Delete Message: ',
-                data))
+            .do((data: any) => console.log('Delete Message: '))
             .catch(BucketlistItemsService.handleError);
     }
 

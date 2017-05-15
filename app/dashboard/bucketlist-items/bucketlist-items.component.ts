@@ -26,12 +26,11 @@ export class BucketlistItemsComponent implements OnInit{
     ];
     private errorMessage: any;
     constructor(private _route: ActivatedRoute,
-                private _dialogService: ConfirmDialogService,
+                private _confirmDialogService: ConfirmDialogService,
                 private _bucketlistItemsService: BucketlistItemsService,
                 public modal: Modal, private _toastyService: ToastyService,
                 private _toastyConfig: ToastyConfig,
                 private _dos: DataObjectsService,
-                private _confirmDialogService: ConfirmDialogService,
                 vcRef: ViewContainerRef) {
         modal.overlay.defaultViewContainer = vcRef;
         this._toastyConfig.theme = 'material';
@@ -42,27 +41,27 @@ export class BucketlistItemsComponent implements OnInit{
         this._bucketlistItemsService.getBucketlistItems(bucketlist_id)
             .subscribe(res => {
                 this.bucketlist = res;
-                console.log("bucketlist here first: ", this.bucketlist);
             }, error => this.errorMessage = <any>error);
-        console.log("bucketlist here: ", this.bucketlist);
-
         this._bucketlistItemsService.newBucketlistItem.subscribe(
             (data) => {
-                console.log("Subscribed!!", data)
                 this.bucketlist.items.push(data);
             })
     }
 
-    deleteBucketlistItem(id: number, item_id: number) {
+    createBucketlistItem() {
+        return this.modal.open(CreateBucketlistItemComponent,
+            overlayConfigFactory({}, BSModalContext));
+    }
+
+    editBucketlistItem(id: number, item_id: number, bucketlistItem: object) {
         this.modal.open(ConfirmDialogComponent,
-            overlayConfigFactory({ num1: 2, num2: 3 }, BSModalContext));
-        this._dialogService.confirm
+            overlayConfigFactory(bucketlistItem, BSModalContext));
+        this._confirmDialogService.confirm
             .subscribe((result) => {
                 if (result) {
                     this._bucketlistItemsService.deleteBucketlistItem(id, item_id)
                         .subscribe(
                             (message) => {
-                                // console.log("Success delete: ", message);
                                 let toastOptions: ToastOptions = {
                                     title: "",
                                     msg: message,
@@ -80,12 +79,33 @@ export class BucketlistItemsComponent implements OnInit{
             });
     }
 
-    createBucketlistItem() {
-        return this.modal.open(CreateBucketlistItemComponent,
-            overlayConfigFactory({ num1: 2, num2: 3 }, BSModalContext));
+    deleteBucketlistItem(id: number, item_id: number) {
+        this.modal.open(ConfirmDialogComponent,
+            overlayConfigFactory({ }, BSModalContext));
+        this._confirmDialogService.confirm
+            .subscribe((result) => {
+                if (result) {
+                    this._bucketlistItemsService.deleteBucketlistItem(id, item_id)
+                        .subscribe(
+                            (message) => {
+                                let toastOptions: ToastOptions = {
+                                    title: "",
+                                    msg: message,
+                                    showClose: true,
+                                    timeout: 5000,
+
+                                };
+                                // Add see all possible types in one shot
+                                this._toastyService.success(toastOptions);
+                                let index = this._dos.deepIndexOf(this.bucketlist.items, "id", item_id)
+                                this.bucketlist.items.splice(index, 1);
+                            },
+                            error => this.errorMessage = <any>error);
+                }
+            });
     }
 
-    setItemDone(checked: any){
-
+    setItemDone(event: any){
+        console.log("Checked button: ", event.target.checked);
     }
 }
