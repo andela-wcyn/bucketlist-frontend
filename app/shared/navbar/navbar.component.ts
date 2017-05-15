@@ -58,7 +58,6 @@ export class NavbarComponent implements OnInit{
 
     queryObjects(queryData: object){
         let path = this.location.path();
-        console.log("Path? ", path);
         if(path === '/bucketlists'){
 
         }

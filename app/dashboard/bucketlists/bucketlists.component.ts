@@ -59,7 +59,6 @@ export class BucketlistsComponent implements OnInit {
             (data) => {
                 this.bucketlists = data.data[0];
                 this.pages = this.createNumList(1, Math.ceil(data.total / this.limit) + 1);
-                console.log("Pages: ", this.pages);
             });
         this._searchQueryService.query.subscribe(
             (data) => {
@@ -89,24 +88,20 @@ export class BucketlistsComponent implements OnInit {
     }
 
     getFirstPage(){
-        console.log("Query?", this.query);
         this.getBucketlists(1, this.query, this.limit);
     }
 
     getLastPage(){
-        console.log("Query?", this.query);
         this.getBucketlists(this.pages[this.pages.length-1], this.query, this.limit);
     }
 
     getNextPage(){
-        console.log("Query?", this.query);
         if (this.currentPage < this.pages[this.pages.length-1]) {
             this.getBucketlists(this.currentPage + 1, this.query, this.limit);
         }
     }
 
     getPreviousPage(){
-        console.log("Query?", this.query);
         if (this.currentPage > this.pages[0]) {
             this.getBucketlists(this.currentPage - 1, this.query, this.limit);
         }
