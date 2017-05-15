@@ -14,8 +14,8 @@ import {ToastOptions, ToastyConfig, ToastyService} from "ng2-toasty";
 
 export class RegisterComponent implements OnInit{
     private messages: Array<string> = [];
-    errorMessage: any;
     token_expired: any;
+    field_errors: object;
     userForm: FormGroup;
 
     ngOnInit(){
@@ -41,14 +41,15 @@ export class RegisterComponent implements OnInit{
         this._userservice.registerUser(userData.password, userData.username, userData.email)
             .subscribe(
                     (data) => {
-                    // save the token in local storage
-                    let token = data.token;
-                    let jwtHelper: JwtHelper = new JwtHelper();
-                    localStorage.setItem('token', token);
-                    this.messages.push(`register successful, token saved.`);
-            
-                    this.messages.push(`expiration: ${jwtHelper.getTokenExpirationDate(token)}`);
-                    this.token_expired = `is expired: ${jwtHelper.isTokenExpired(token)}`;
+                    // Welcome the user
+                        let toastOptions: ToastOptions = {
+                            title: "Welcome " + data.username,
+                            msg: "You have been successfully registered",
+                            showClose: true,
+                            timeout: 5000,
+
+                        };
+                        this._toastyService.error(toastOptions);
                         this._router.navigate(['login']);
          },
                 (error) => {
@@ -63,10 +64,10 @@ export class RegisterComponent implements OnInit{
 
                         };
                         this._toastyService.error(toastOptions);
-                        this.errorMessage = `Registration failed: ${errors}`;
                     }
                     if (error.field_errors) {
-                        
+                        this.field_errors = error.field_errors;
+                        console.log("Field errors: ", this.field_errors);
                     }
                 }
             );

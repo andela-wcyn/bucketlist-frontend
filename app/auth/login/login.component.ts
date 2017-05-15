@@ -14,8 +14,8 @@ import {ToastOptions, ToastyConfig, ToastyService} from "ng2-toasty";
 
 export class LoginComponent implements OnInit{
     private messages: Array<string> = [];
-    errorMessage: any;
     token_expired: any;
+    field_errors: object;
     userForm: FormGroup;
 
     ngOnInit(){
@@ -47,17 +47,22 @@ export class LoginComponent implements OnInit{
                     window.location.href = '/bucketlists';
                     },
                 (error) => {
-                    let errors = error.errors;
-                    console.log("Errors: ", error);
-                    let toastOptions: ToastOptions = {
-                        title: "",
-                        msg: errors,
-                        showClose: true,
-                        timeout: 5000,
+                    if (error.errors) {
+                        let errors = error.errors;
+                        console.log("Errors: ", error);
+                        let toastOptions: ToastOptions = {
+                            title: "",
+                            msg: errors,
+                            showClose: true,
+                            timeout: 5000,
 
-                    };
-                    this._toastyService.error(toastOptions);
-                    this.errorMessage = `Login failed: ${errors}`;
+                        };
+                        this._toastyService.error(toastOptions);
+                    }
+
+                    if (error.field_errors) {
+                        this.field_errors = error.field_errors;
+                    }
                 }
             );
     }
