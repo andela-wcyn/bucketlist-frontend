@@ -15,18 +15,36 @@ import { AuthHttp } from "angular2-jwt";
 export class BucketlistService {
     @Output() newBucketlist: EventEmitter<any> = new EventEmitter();
     @Output() editedBucketlist: EventEmitter<any> = new EventEmitter();
+    @Output() queriedBucketlists: EventEmitter<any> = new EventEmitter();
 
     constructor(public authHttp: AuthHttp) {}
 
-    getBucketlists(): Observable<IBucketlist[]> {
-        let options: RequestOptions = new RequestOptions({
-            headers: new Headers({ 'Content-Type': 'application/json' })
-        });
+    getBucketlists(query?: string): Observable<IBucketlist[]> {
+        let params: URLSearchParams = new URLSearchParams();
 
+        let url = APP_SERVER + 'bucketlists/';
+        if (query) {
+            params.set('query', query);
+            // url += 'bucketlists?'
+        } else{
+            // params.set('query', query);
+            // url += 'bucketlists/'
+            query="";
+        }
+        let options: RequestOptions = new RequestOptions({
+            headers: new Headers({ 'Content-Type': 'application/json'}),
+            search: 'q=' + query
+        });
+        // options.search = params;
         return this.authHttp
-            .get(APP_SERVER + 'bucketlists/', options)
+            .get(url, options)
             .map((response: Response) => response.json().data[0])
-            .do((data: string) => console.log('Got bucketlists Data: '))
+            .do((data: string) => {
+                console.log('Got bucketlists Data: ');
+                if (query) {
+                    this.queriedBucketlists.emit(data);
+                }
+            })
             .catch(BucketlistService.handleError);
     }
 

@@ -16,12 +16,8 @@ export class LoginComponent implements OnInit{
     errorMessage: any;
     token_expired: any;
     userForm: FormGroup;
-    
-    // @Output() user = new EventEmitter<any>();
-    // @Output() notify: EventEmitter<string> = new EventEmitter<string>();
 
     ngOnInit(){
-        // $.getScript('../../../assets/js/material-dashboard.js');
         this.userForm = this._fb.group({
             username: ['', [
                 <any>Validators.maxLength(100)]],

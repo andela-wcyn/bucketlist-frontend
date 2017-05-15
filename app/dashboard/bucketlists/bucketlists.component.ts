@@ -51,17 +51,32 @@ export class BucketlistsComponent implements OnInit {
         this._bucketlistService.newBucketlist.subscribe(
             (data) => {
                 this.bucketlists.push(data);
-            })
+            });
         this._bucketlistService.editedBucketlist.subscribe(
             (data) => {
                 let index = this._dos.deepIndexOf(this.bucketlists, "id", data.id)
                 this.bucketlists.splice(index, 1, data);
-            })
+            });
+        this._bucketlistService.queriedBucketlists.subscribe(
+            (data) => {
+                this.bucketlists = data;
+            });
+
+    }
+
+
+    queryBucketlists(query) {
+        this._bucketlistService.getBucketlists(query)
+            .subscribe(
+                bucketlists => {
+                    this.bucketlists = bucketlists
+                },
+                error => this.errorMessage = <any>error);
     }
 
     createBucketlist() {
         return this.modal.open(CreateBucketlistComponent,
-            overlayConfigFactory({ num1: 2, num2: 3 }, BSModalContext));
+            overlayConfigFactory({}, BSModalContext));
     }
 
     editBucketlist(bucketlist_id: number, bucketlistItem: object) {

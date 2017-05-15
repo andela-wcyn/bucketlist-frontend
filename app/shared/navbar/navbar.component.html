@@ -41,9 +41,12 @@
             </ul>
 
 
-            <form class="navbar-form navbar-right" role="search" *ngIf="loggedIn()">
+            <form form [formGroup]="searchForm" novalidate (ngSubmit)="queryObjects(searchForm.value, searchForm.valid)" class="navbar-form navbar-right" role="search" *ngIf="loggedIn()">
                 <div class="form-group form-black is-empty">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" formControlName="query" required>
+                    <small [hidden]="searchForm.controls.query.valid || (searchForm.controls.query.pristine && !submitted)">
+                        Search query cannot be empty.
+                    </small>
                     <span class="material-input"></span>
                 </div>
                 <button class="btn btn-white btn-round btn-just-icon">

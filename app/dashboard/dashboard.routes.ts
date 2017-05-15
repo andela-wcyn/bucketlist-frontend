@@ -28,11 +28,5 @@ export const MODULE_COMPONENTS = [
     CreateBucketlistComponent,
     CreateBucketlistItemComponent,
     EditBucketlistItemComponent,
-    EditBucketlistComponent,
-    ProfileComponent,
-    TableComponent,
-    IconsComponent,
-    NotificationsComponent,
-    TypographyComponent,
-    UpgradeComponent
+    EditBucketlistComponent
 ]

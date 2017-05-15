@@ -14,17 +14,29 @@ import { IBucketlist } from "../bucketlists/bucketlist";
 export class BucketlistItemsService {
     @Output() newBucketlistItem: EventEmitter<any> = new EventEmitter();
     @Output() editedBucketlistItem: EventEmitter<any> = new EventEmitter();
+    @Output() queriedBucketlistItems: EventEmitter<any> = new EventEmitter();
     constructor(public authHttp: AuthHttp) {}
 
-    getBucketlistItems(id: number): Observable<IBucketlist> {
+    getBucketlistItems(id: number, query?: string): Observable<IBucketlist> {
         let options: RequestOptions = new RequestOptions({
             headers: new Headers({ 'Content-Type': 'application/json' })
         });
+        let url = APP_SERVER;
+        if (query) {
+            url += 'bucketlists/' + id + "?q=" + query;
+        } else{
+            url += 'bucketlists/' + id;
+        }
 
         return this.authHttp
-            .get(APP_SERVER + 'bucketlists/' + id, options)
+            .get(url, options)
             .map((response: Response) => response.json().data.bucketlist)
-            .do((data: string) => console.log('Got bucketlistItems Data'))
+            .do((data: string) => {
+                // console.log('Got bucketlistItems Data');
+                if (query) {
+                    this.queriedBucketlistItems.emit(data);
+                }
+            })
             .catch(BucketlistItemsService.handleError);
     }
 

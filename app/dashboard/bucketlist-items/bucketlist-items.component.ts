@@ -53,6 +53,10 @@ export class BucketlistItemsComponent implements OnInit{
                 let index = this._dos.deepIndexOf(this.bucketlist.items, "id", data.id)
                 this.bucketlist.items.splice(index, 1, data);
             });
+        this._bucketlistItemsService.queriedBucketlistItems.subscribe(
+            (data) => {
+                this.bucketlist.items = data;
+            });
     }
 
     createBucketlistItem() {
