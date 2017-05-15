@@ -9,6 +9,8 @@ import {CreateBucketlistComponent} from "./create-bucketlist.component";
 import {BSModalContext, Modal} from 'angular2-modal/plugins/bootstrap';
 import {overlayConfigFactory} from "angular2-modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {IBucketlistItem} from "../bucketlist-items/bucketlist-item";
+import {DataObjectsService} from "../data-objects.service";
 
 declare let $:any;
 
@@ -27,7 +29,9 @@ export class BucketlistsComponent implements OnInit {
     // Dependency Injection
     constructor(private _bucketlistService: BucketlistService,
                 private _dialogService: ConfirmDialogService,
-                private _toastyService: ToastyService, private _toastyConfig: ToastyConfig,
+                private _toastyService: ToastyService,
+                private _toastyConfig: ToastyConfig,
+                private _dos: DataObjectsService,
                 public modal: Modal,
                 vcRef: ViewContainerRef) {
         modal.overlay.defaultViewContainer = vcRef;
@@ -39,7 +43,10 @@ export class BucketlistsComponent implements OnInit {
 
         this._bucketlistService.getBucketlists()
             .subscribe(
-                bucketlists => this.bucketlists = bucketlists,
+                bucketlists => {
+                    this.bucketlists = bucketlists
+                    console.log("Bucketlists: ", this.bucketlists)
+                },
                 error => this.errorMessage = <any>error);
     }
 
@@ -62,11 +69,13 @@ export class BucketlistsComponent implements OnInit {
                                     msg: message,
                                     showClose: true,
                                     timeout: 5000,
-                                    position: 'bottom-right'
 
                                 };
                                 // Add see all possible types in one shot
                                 this._toastyService.success(toastOptions);
+                                let index = this._dos.deepIndexOf(this.bucketlists, "id", id)
+                                this.bucketlists.splice(index, 1);
+                                // this.bucketlists.pop()
                                 // this._toastyService.default("Successfully Deleted!!");
                             },
                             error => this.errorMessage = <any>error);

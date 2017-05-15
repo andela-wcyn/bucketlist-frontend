@@ -7,6 +7,7 @@ import { BucketlistService } from "./bucketlists/bucketlists.service";
 import { BucketlistItemsService } from "./bucketlist-items/bucketlist-items.service";
 import {CreateBucketlistComponent} from "./bucketlists/create-bucketlist.component";
 import {CreateBucketlistItemComponent} from "./bucketlist-items/create-bucketlist-item.component";
+import {DataObjectsService} from "./data-objects.service";
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {CreateBucketlistItemComponent} from "./bucketlist-items/create-bucketlis
     ],
     entryComponents: [CreateBucketlistComponent, CreateBucketlistItemComponent],
     declarations: [ MODULE_COMPONENTS ],
-    providers: [ BucketlistItemGuard, BucketlistService, BucketlistItemsService ]
+    providers: [ BucketlistItemGuard, BucketlistService, BucketlistItemsService,
+    DataObjectsService]
 })
 
 export class DashboardModule{}

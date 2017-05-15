@@ -7,6 +7,7 @@ import {Modal, overlayConfigFactory} from "angular2-modal";
 import {BSModalContext} from "angular2-modal/plugins/bootstrap";
 import {ToastOptions, ToastyConfig, ToastyService} from "ng2-toasty";
 import {ConfirmDialogService} from "../../shared/dialog/confirm-dialog.service";
+import {DataObjectsService} from "../data-objects.service";
 declare let $:any;
 
 @Component({
@@ -26,7 +27,9 @@ export class BucketlistItemsComponent implements OnInit{
     constructor(private _route: ActivatedRoute,
                 private _dialogService: ConfirmDialogService,
                 private _bucketlistItemsService: BucketlistItemsService,
-                public modal: Modal, private _toastyService: ToastyService, private _toastyConfig: ToastyConfig,
+                public modal: Modal, private _toastyService: ToastyService,
+                private _toastyConfig: ToastyConfig,
+                private _dos: DataObjectsService,
                 vcRef: ViewContainerRef) {
         modal.overlay.defaultViewContainer = vcRef;
         this._toastyConfig.theme = 'material';
@@ -75,7 +78,8 @@ export class BucketlistItemsComponent implements OnInit{
                                 };
                                 // Add see all possible types in one shot
                                 this._toastyService.success(toastOptions);
-                                // this._toastyService.default("Successfully Deleted!!");
+                                let index = this._dos.deepIndexOf(this.bucketlist.items, "id", item_id)
+                                this.bucketlist.items.splice(index, 1);
                             },
                             error => this.errorMessage = <any>error);
                 }
