@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { JwtHelper } from 'angular2-jwt';
 import {UserService} from "../user.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -13,19 +15,26 @@ export class RegisterComponent implements OnInit{
     private messages: Array<string> = [];
     errorMessage: any;
     token_expired: any;
-    // @Output() user = new EventEmitter<any>();
-    // @Output() notify: EventEmitter<string> = new EventEmitter<string>();
+    userForm: FormGroup;
 
     ngOnInit(){
-        // $.getScript('../../../assets/js/material-dashboard.js');
-
+        this.userForm = this._fb.group({
+            username: ['', [ <any>Validators.required,
+                <any>Validators.maxLength(100)]],
+            email: ['', [ <any>Validators.required,
+                <any>Validators.maxLength(100)]],
+            password: ['', [ <any>Validators.required,
+                <any>Validators.minLength(6)]]
+        });
     }
     
-    constructor(private _userservice: UserService){
+    constructor(private _userservice: UserService,
+                private _fb: FormBuilder,
+                private _router: Router){
 
     }
-    register() {
-        this._userservice.registerUser("1234567", "molly")
+    registerUser(userData: object) {
+        this._userservice.registerUser(userData.password, userData.username, userData.email)
             .subscribe(
                     (data) => {
                     // save the token in local storage
@@ -37,13 +46,12 @@ export class RegisterComponent implements OnInit{
             
                     this.messages.push(`expiration: ${jwtHelper.getTokenExpirationDate(token)}`);
                     this.token_expired = `is expired: ${jwtHelper.isTokenExpired(token)}`;
-                    // this.user.emit(`decoded: ${JSON.stringify(jwtHelper.decodeToken(token))}`);
-                    // this.notify.emit('Click from nested component');
+                        this._router.navigate(['login']);
          },
                 (error) => {
                     let errors = error.errors;
                     console.log("Errors: ", error);
-                    this.errorMessage = `register failed: ${errors}`;
+                    this.errorMessage = `registration failed: ${errors}`;
                 }
             );
     }

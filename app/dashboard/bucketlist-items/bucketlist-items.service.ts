@@ -40,34 +40,20 @@ export class BucketlistItemsService {
             .do((data: string) => console.log('New Item Data: ' + JSON.stringify(data)))
             .catch(BucketlistItemsService.handleError);
     }
-    // createBucketlist(bucketlist_data: object): Observable<IBucketlist> {
-    //     let options: RequestOptions = new RequestOptions({
-    //         headers: new Headers({ 'Content-Type': 'application/json' })
-    //     });
-    //
-    //     return this.authHttp
-    //         .post(APP_SERVER + 'auth/login',
-    //             JSON.stringify(bucketlist_data),
-    //             options)
-    //         .map((response: Response) => response.json().data[0])
-    //         .do((data: string) => console.log('USer Data: ' + JSON.stringify(data)))
-    //         .catch(BucketlistService.handleError);
-    // }
 
-    // getBucketlists(): Observable<IBucketlist[]> {
-    //     let headers = new Headers();
-    //     this.createAuthorizationHeader(headers);
-    //     return this._http.get(this._bucketlistsUrl, {headers: headers})
-    //                 .map((response: Response) => <IBucketlist[]>response.json().data[0])
-    //                 .do(data=> console.log('All: bucketlists retrieved'))
-    //                 .catch(this.handleError);
-    //     // return [
-    //     // {"id": 1,"description": "My first Item", "detailsLink": "link1", "itemCount": 3, "items": []},
-    //     // {"id": 2,"description": "My Other item", "detailsLink": "link2", "itemCount": 1, "items": []},
-    //     // {"id": 3,"description": "And another item", "detailsLink": "link3", "itemCount": 2, "items": []},
-    //
-    //     // ]
-    // }
+    deleteBucketlistItem(id: number, item_id: number): Observable<object> {
+        let options: RequestOptions = new RequestOptions({
+            headers: new Headers({ 'Content-Type': 'application/json' })
+        });
+
+        return this.authHttp
+            .delete(APP_SERVER + 'bucketlists/' + id + '/' + item_id, options)
+            .map((response: Response) => response.json().message)
+            .do((data: any) => console.log('Delete Message: ',
+                data))
+            .catch(BucketlistItemsService.handleError);
+    }
+
 
     private static handleError (error: Response) {
         console.log(error);

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { JwtHelper } from 'angular2-jwt';
 import {UserService} from "../user.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -13,19 +15,26 @@ export class LoginComponent implements OnInit{
     private messages: Array<string> = [];
     errorMessage: any;
     token_expired: any;
+    userForm: FormGroup;
     
     // @Output() user = new EventEmitter<any>();
     // @Output() notify: EventEmitter<string> = new EventEmitter<string>();
 
     ngOnInit(){
         // $.getScript('../../../assets/js/material-dashboard.js');
-        this.login();
+        this.userForm = this._fb.group({
+            username: ['', [
+                <any>Validators.maxLength(100)]],
+            password: ['', [ <any>Validators.required]]
+        });
         console.log("Token expired? " + this.token_expired);
     }
     
-    constructor(private _userservice: UserService){}
-    login() {
-        this._userservice.logIn("1234567", "molly")
+    constructor(private _userservice: UserService,
+                private _fb: FormBuilder,
+                private _router: Router){}
+    loginUser(userData: object) {
+        this._userservice.logIn(userData.password, userData.username)
             .subscribe(
                     (data) => {
                     // save the token in local storage
@@ -37,8 +46,7 @@ export class LoginComponent implements OnInit{
             
                     this.messages.push(`expiration: ${jwtHelper.getTokenExpirationDate(token)}`);
                     this.token_expired = `is expired: ${jwtHelper.isTokenExpired(token)}`;
-                    // this.user.emit(`decoded: ${JSON.stringify(jwtHelper.decodeToken(token))}`);
-                    // this.notify.emit('Click from nested component');
+                        this._router.navigate(['bucketlists']);
          },
                 (error) => {
                     let errors = error.errors;

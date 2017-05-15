@@ -34,25 +34,21 @@ export class UserService {
     // }
     
     // send username/email and password and get the token
-    logIn(password: string, username?: string, email?: string): Observable<any> {
+    logIn( password: string, username: string): Observable<any> {
         let options: RequestOptions = new RequestOptions({
         headers: new Headers({ 'Content-Type': 'application/json' })
         });
         let user_data = {
-            "password": password
+            "password": password,
+            "username": username
         };
-        if (username) {
-            user_data["username"] = username;
-        }
-        if (email) {
-            user_data["email"] = email;
-        }
+
         return this._http
             .post(APP_SERVER + 'auth/login',
             JSON.stringify(user_data),
             options)
             .map((response: Response) => response.json())
-            .do(data=> console.log('USer Data: ' + JSON.stringify(data)))
+            .do(data=> console.log('User Data: ' + JSON.stringify(data)))
             .catch(this.handleError);
     }
 

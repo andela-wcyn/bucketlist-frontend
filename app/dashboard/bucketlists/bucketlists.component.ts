@@ -50,7 +50,7 @@ export class BucketlistsComponent implements OnInit {
 
     deleteBucketlist(id: number) {
         this._dialogService
-            .confirm('Delete Bucketlist? ', 'Are you sure you want to delete this Bucketlist? ' + id)
+            .confirm('Delete Bucketlist? ', 'Are you sure you want to delete this Bucketlist? ')
             .subscribe((result) => {
                 if (result) {
                     this._bucketlistService.deleteBucketlist(id)

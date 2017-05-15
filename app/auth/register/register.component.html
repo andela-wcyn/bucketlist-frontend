@@ -9,80 +9,40 @@
                     <p class="category">Join Buzz Buckets</p>
                 </div>
                 <div class="card-content">
-                    <form>
+                    <form [formGroup]="userForm" novalidate (ngSubmit)="create(userForm.value, userForm.valid)">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group form-black label-floating is-empty">
                                     <label class="control-label">Username</label>
-                                    <input type="text" class="form-control" >
+                                    <input type="text" class="form-control" formControlName="username">
+                                    <small [hidden]="userForm.controls.username.valid || (userForm.controls.username.pristine && !submitted)">
+                                        Username is required.
+                                    </small>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group form-black label-floating is-empty">
                                     <label class="control-label">Email address</label>
-                                    <input type="email" class="form-control" >
+                                    <input type="email" class="form-control" formControlName="email" required>
+                                    <small [hidden]="userForm.controls.email.valid || (userForm.controls.email.pristine && !submitted)">
+                                        Email is required.
+                                    </small>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group form-black label-floating is-empty">
-                                    <label class="control-label">Fist Name</label>
-                                    <input type="text" class="form-control" >
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-black label-floating is-empty">
-                                    <label class="control-label">Last Name</label>
-                                    <input type="text" class="form-control" >
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-black label-floating is-empty">
-                                    <label class="control-label">Adress</label>
-                                    <input type="text" class="form-control" >
+                                    <label class="control-label">Password</label>
+                                    <input type="password" class="form-control" formControlName="email" required>
+                                    <small [hidden]="userForm.controls.password.valid || (userForm.controls.password.pristine && !submitted)">
+                                        Password is required.
+                                    </small>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group form-black label-floating is-empty">
-                                    <label class="control-label">City</label>
-                                    <input type="text" class="form-control" >
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group form-black label-floating is-empty">
-                                    <label class="control-label">Country</label>
-                                    <input type="text" class="form-control" >
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group form-black label-floating is-empty">
-                                    <label class="control-label">Postal Code</label>
-                                    <input type="text" class="form-control" >
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>About Me</label>
-                                    <div class="form-group form-black label-floating is-empty">
-                                        <label class="control-label"> Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</label>
-                                        <textarea class="form-control" rows="5"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <button type="submit" class="btn btn-danger pull-right">Update Profile</button>
+                        <button type="submit" class="btn btn-danger pull-right">Register</button>
                         <div class="clearfix"></div>
                     </form>
                 </div>

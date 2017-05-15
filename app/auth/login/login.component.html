@@ -9,12 +9,15 @@
                     <p class="category">Log in to Buzz Buckets</p>
                 </div>
                 <div class="card-content">
-                    <form>
+                    <form form [formGroup]="userForm" novalidate (ngSubmit)="loginUser(userForm.value, userForm.valid)">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-black label-floating is-empty">
-                                    <label class="control-label">Username or Email</label>
-                                    <input type="text" class="form-control" >
+                                    <label class="control-label">Username</label>
+                                    <input type="text" class="form-control" formControlName="username">
+                                    <small [hidden]="userForm.controls.username.valid || (userForm.controls.username.pristine && !submitted)">
+                                        Username is required.
+                                    </small>
                                 </div>
                             </div>
                         </div>
@@ -23,8 +26,10 @@
                             <div class="col-md-12">
                                 <div class="form-group form-black label-floating is-empty">
                                     <label class="control-label">Password</label>
-                                    <input type="password" class="form-control" >
-                                </div>
+                                    <input type="password" class="form-control" formControlName="password" required>
+                                    <small [hidden]="userForm.controls.password.valid || (userForm.controls.password.pristine && !submitted)">
+                                        Password is required.
+                                    </small></div>
                             </div>
                         </div>
 

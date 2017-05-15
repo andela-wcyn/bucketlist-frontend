@@ -16,13 +16,7 @@ import {CreateBucketlistItemComponent} from "./bucketlist-items/create-bucketlis
 export const DASHBOARD_MODULE_ROUTES: Route[] = [ 
     { path: 'bucketlists', component: BucketlistsComponent},
     { path: 'bucketlists/:id', component: BucketlistItemsComponent,
-        canActivate: [BucketlistItemGuard]}, // canActivate: [AuthGuard]
-    { path: 'profile', component: ProfileComponent},
-    { path: 'table', component: TableComponent },
-    { path: 'icons', component: IconsComponent },
-    { path: 'notifications', component: NotificationsComponent },
-    { path: 'typography', component: TypographyComponent },
-    { path: 'upgrade', component: UpgradeComponent },
+        canActivate: [BucketlistItemGuard]}
 ]
 
 export const MODULE_COMPONENTS = [

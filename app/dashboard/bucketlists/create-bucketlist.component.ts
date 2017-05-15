@@ -25,7 +25,7 @@ export class CreateBucketlistComponent implements OnInit, CloseGuard, ModalCompo
         this.context = dialog.context;
     }
     ngOnInit(): void {
-        this.bucketlistItemForm = this._fb.group({
+        this.bucketlistForm = this._fb.group({
             description: ['', [ <any>Validators.required,
                 <any>Validators.maxLength(100)]]
         });

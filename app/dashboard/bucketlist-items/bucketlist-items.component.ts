@@ -5,7 +5,8 @@ import {IBucketlist} from "../bucketlists/bucketlist";
 import {CreateBucketlistItemComponent} from "./create-bucketlist-item.component";
 import {Modal, overlayConfigFactory} from "angular2-modal";
 import {BSModalContext} from "angular2-modal/plugins/bootstrap";
-import {ToastyConfig, ToastyService} from "ng2-toasty";
+import {ToastOptions, ToastyConfig, ToastyService} from "ng2-toasty";
+import {ConfirmDialogService} from "../../shared/dialog/confirm-dialog.service";
 declare let $:any;
 
 @Component({
@@ -23,6 +24,7 @@ export class BucketlistItemsComponent implements OnInit{
     ];
     private errorMessage: any;
     constructor(private _route: ActivatedRoute,
+                private _dialogService: ConfirmDialogService,
                 private _bucketlistItemsService: BucketlistItemsService,
                 public modal: Modal, private _toastyService: ToastyService, private _toastyConfig: ToastyConfig,
                 vcRef: ViewContainerRef) {
@@ -53,6 +55,32 @@ export class BucketlistItemsComponent implements OnInit{
         //     $checkbox.checkbox();
         // });
         // initDemo();
+    }
+
+    deleteBucketlistItem(id: number, item_id: number) {
+        this._dialogService
+            .confirm('Delete Item? ', 'Are you sure you want to delete this item? ')
+            .subscribe((result) => {
+                if (result) {
+                    this._bucketlistItemsService.deleteBucketlistItem(id, item_id)
+                        .subscribe(
+                            (message) => {
+                                // console.log("Success delete: ", message);
+                                let toastOptions: ToastOptions = {
+                                    title: "",
+                                    msg: message,
+                                    showClose: true,
+                                    timeout: 5000,
+
+                                };
+                                // Add see all possible types in one shot
+                                this._toastyService.success(toastOptions);
+                                // this._toastyService.default("Successfully Deleted!!");
+                            },
+                            error => this.errorMessage = <any>error);
+                }
+            });
+
     }
 
     createBucketlistItem() {
