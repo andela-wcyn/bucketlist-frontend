@@ -16,6 +16,9 @@ import { SharedModule } from "./shared/shared.module";
 import { MaterialModule } from "@angular/material";
 import { ToastService } from "./shared/toast/toast.sevice";
 import {ToastyModule} from "ng2-toasty";
+import {ModalModule, ModalOverlay} from "angular2-modal";
+import {BootstrapModalModule, Modal} from 'angular2-modal/plugins/bootstrap';
+
 
 @NgModule({
     imports:      [
@@ -26,6 +29,8 @@ import {ToastyModule} from "ng2-toasty";
         SharedModule,
         ToastyModule.forRoot(),
         MaterialModule.forRoot(),
+        ModalModule.forRoot(),
+        BootstrapModalModule,
         RouterModule.forRoot([
             { path: '', component: HomeComponent },
             { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -36,7 +41,7 @@ import {ToastyModule} from "ng2-toasty";
     providers: [
         provideAuth({
           headerPrefix: 'JWT'
-        }), AuthGuard, ToastService],
+        }), AuthGuard, ToastService, Modal],
     bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

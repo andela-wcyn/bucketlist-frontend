@@ -28,7 +28,10 @@
         // other libraries
         'rxjs': 'npm:rxjs',
         'angular2-jwt': 'npm:angular2-jwt/angular2-jwt.js',
-        'ng2-toasty': 'node_modules/ng2-toasty/bundles/index.umd.js'
+        'ng2-toasty': 'npm:ng2-toasty/bundles/index.umd.js',
+        'angular2-modal': 'npm:angular2-modal',
+        'angular2-modal/plugins/bootstrap': 'npm:angular2-modal/bundles'
+
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -38,7 +41,16 @@
         },
         rxjs: {
             defaultExtension: 'js'
-        }
+        },
+        'angular2-modal': {
+            defaultExtension: 'js',
+            main: 'bundles/angular2-modal.umd'
+        },
+
+        'angular2-modal/plugins/bootstrap': {
+            defaultExtension: 'js',
+            main: 'angular2-modal.bootstrap.umd' }
+
     }
   });
 })(this);
