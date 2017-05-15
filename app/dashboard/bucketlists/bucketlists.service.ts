@@ -19,26 +19,15 @@ export class BucketlistService {
 
     constructor(public authHttp: AuthHttp) {}
 
-    getBucketlists(query?: string): Observable<IBucketlist[]> {
-        let params: URLSearchParams = new URLSearchParams();
-
+    getBucketlists(query="", page=1, limit=20): Observable<IBucketlist[]> {
         let url = APP_SERVER + 'bucketlists/';
-        if (query) {
-            params.set('query', query);
-            // url += 'bucketlists?'
-        } else{
-            // params.set('query', query);
-            // url += 'bucketlists/'
-            query="";
-        }
         let options: RequestOptions = new RequestOptions({
             headers: new Headers({ 'Content-Type': 'application/json'}),
-            search: 'q=' + query
+            search: 'q=' + query + '&page=' + page +'&limit=' + limit
         });
-        // options.search = params;
         return this.authHttp
             .get(url, options)
-            .map((response: Response) => response.json().data[0])
+            .map((response: Response) => response.json())
             .do((data: string) => {
                 console.log('Retrieved  bucketlists data');
                 if (query) {
