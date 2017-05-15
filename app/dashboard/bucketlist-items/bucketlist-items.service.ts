@@ -13,6 +13,7 @@ import { IBucketlist } from "../bucketlists/bucketlist";
 @Injectable()
 export class BucketlistItemsService {
     @Output() newBucketlistItem: EventEmitter<any> = new EventEmitter();
+    @Output() editedBucketlistItem: EventEmitter<any> = new EventEmitter();
     constructor(public authHttp: AuthHttp) {}
 
     getBucketlistItems(id: number): Observable<IBucketlist> {
@@ -31,7 +32,6 @@ export class BucketlistItemsService {
         let options: RequestOptions = new RequestOptions({
             headers: new Headers({ 'Content-Type': 'application/json' })
         });
-
         return this.authHttp
             .post(APP_SERVER + 'bucketlists/' + bucketlist_id,
                 JSON.stringify(bucketlist_item_data),
@@ -55,7 +55,7 @@ export class BucketlistItemsService {
                 options)
             .map((response: Response) => response.json())
             .do((data: string) => {
-                this.newBucketlistItem.emit(data);
+                this.editedBucketlistItem.emit(data);
             })
             .catch(BucketlistItemsService.handleError);
     }

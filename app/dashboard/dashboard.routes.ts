@@ -12,6 +12,7 @@ import { UpgradeComponent } from './upgrade/upgrade.component';
 import { ProfileComponent } from "./profile/profile.component";
 import {CreateBucketlistComponent} from "./bucketlists/create-bucketlist.component";
 import {CreateBucketlistItemComponent} from "./bucketlist-items/create-bucketlist-item.component";
+import {EditBucketlistItemComponent} from "./bucketlist-items/edit-bucketlist-item.component";
 
 export const DASHBOARD_MODULE_ROUTES: Route[] = [ 
     { path: 'bucketlists', component: BucketlistsComponent},
@@ -24,6 +25,7 @@ export const MODULE_COMPONENTS = [
     BucketlistItemsComponent,
     CreateBucketlistComponent,
     CreateBucketlistItemComponent,
+    EditBucketlistItemComponent,
     ProfileComponent,
     TableComponent,
     IconsComponent,

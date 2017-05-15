@@ -45,16 +45,20 @@ export class EditBucketlistItemComponent implements OnInit, CloseGuard, ModalCom
     }
 
     edit(model: IBucketlistItemNew, isValid: boolean) {
-        let bucketlist_id = this._route.snapshot.params["id"]
+
         this.submitted = true;
         console.log(model, isValid);
         if (isValid){
-            this.editBucketlistItem(model, bucketlist_id);
+            console.log("Item context: ", this.context);
+            model["bucketlist_id"] = this.context.bucketlist_id;
+            model["item_id"] = this.context.item_id;
+            this.editBucketlistItem(model);
         }
     }
 
-    editBucketlistItem(bucketlistItemData: object, bucketlist_id: number) {
-        this._bucketlistService.editBucketlistItem(bucketlistItemData, bucketlist_id, item_id)
+    editBucketlistItem(bucketlistItemData: object) {
+        this._bucketlistService.editBucketlistItem(bucketlistItemData,
+            bucketlistItemData.bucketlist_id, bucketlistItemData.item_id)
             .subscribe(
                 (data) => {
                     this.dialog.close();

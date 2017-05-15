@@ -9,6 +9,7 @@ import {ToastOptions, ToastyConfig, ToastyService} from "ng2-toasty";
 import {ConfirmDialogService} from "../../shared/dialog/confirm-dialog.service";
 import {DataObjectsService} from "../data-objects.service";
 import {ConfirmDialogComponent} from "../../shared/dialog/confirm-dialog.component";
+import {EditBucketlistItemComponent} from "./edit-bucketlist-item.component";
 declare let $:any;
 
 @Component({
@@ -46,6 +47,12 @@ export class BucketlistItemsComponent implements OnInit{
             (data) => {
                 this.bucketlist.items.push(data);
             })
+
+        this._bucketlistItemsService.editedBucketlistItem.subscribe(
+            (data) => {
+                let index = this._dos.deepIndexOf(this.bucketlist.items, "id", data.id)
+                this.bucketlist.items.splice(index, 1, data);
+            })
     }
 
     createBucketlistItem() {
@@ -53,8 +60,10 @@ export class BucketlistItemsComponent implements OnInit{
             overlayConfigFactory({}, BSModalContext));
     }
 
-    editBucketlistItem(id: number, item_id: number, bucketlistItem: object) {
-        this.modal.open(ConfirmDialogComponent,
+    editBucketlistItem(bucketlist_id: number, item_id: number, bucketlistItem: object) {
+        bucketlistItem["bucketlist_id"] = bucketlist_id;
+        bucketlistItem["item_id"] = item_id;
+        this.modal.open(EditBucketlistItemComponent,
             overlayConfigFactory(bucketlistItem, BSModalContext));
         this._confirmDialogService.confirm
             .subscribe((result) => {
