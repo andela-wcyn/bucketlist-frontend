@@ -1,7 +1,11 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {BucketlistItemsService} from "./bucketlist-items.service";
 import {IBucketlist} from "../bucketlists/bucketlist";
+import {CreateBucketlistItemComponent} from "./create-bucketlist-item.component";
+import {Modal, overlayConfigFactory} from "angular2-modal";
+import {BSModalContext} from "angular2-modal/plugins/bootstrap";
+import {ToastyConfig, ToastyService} from "ng2-toasty";
 declare let $:any;
 
 @Component({
@@ -19,11 +23,14 @@ export class BucketlistItemsComponent implements OnInit{
     ];
     private errorMessage: any;
     constructor(private _route: ActivatedRoute,
-                private _bucketlistItemsService: BucketlistItemsService){
+                private _bucketlistItemsService: BucketlistItemsService,
+                public modal: Modal, private _toastyService: ToastyService, private _toastyConfig: ToastyConfig,
+                vcRef: ViewContainerRef) {
+        modal.overlay.defaultViewContainer = vcRef;
+        this._toastyConfig.theme = 'material';
         
     }
     ngOnInit(){
-        console.log("this._route: ", this._route.snapshot.params["id"]);
         let bucketlist_id =  this._route.snapshot.params["id"];
         this._bucketlistItemsService.getBucketlistItems(bucketlist_id)
             .subscribe(res => {
@@ -46,5 +53,10 @@ export class BucketlistItemsComponent implements OnInit{
         //     $checkbox.checkbox();
         // });
         // initDemo();
+    }
+
+    createBucketlistItem() {
+        return this.modal.open(CreateBucketlistItemComponent,
+            overlayConfigFactory({ num1: 2, num2: 3 }, BSModalContext));
     }
 }

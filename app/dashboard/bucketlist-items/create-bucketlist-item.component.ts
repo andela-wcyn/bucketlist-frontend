@@ -2,26 +2,26 @@ import {Component, OnInit} from '@angular/core';
 
 import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
-import { IBucketlistNew } from "./bucketlist";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {BucketlistService} from "./bucketlists.service";
+import { IBucketlistItemNew } from "./bucketlist-item";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ToastOptions, ToastyService} from "ng2-toasty";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {BucketlistItemsService} from "./bucketlist-items.service";
 
 export class CustomModalContext extends BSModalContext {}
 
 @Component({
     selector: 'modal-content',
     moduleId: module.id,
-    templateUrl: 'create-bucketlist.component.html',
+    templateUrl: 'create-bucketlist-item.component.html',
 })
-export class CreateBucketlistComponent implements OnInit, CloseGuard, ModalComponent<CustomModalContext> {
-    bucketlistForm: FormGroup;
+export class CreateBucketlistItemComponent implements OnInit, CloseGuard, ModalComponent<CustomModalContext> {
+    bucketlistItemForm: FormGroup;
 
     constructor(public dialog: DialogRef<CustomModalContext>,
-                private _bucketlistService: BucketlistService,
+                private _bucketlistService: BucketlistItemsService,
                 private _fb: FormBuilder, private _router: Router,
-                private _toastyService: ToastyService) {
+                private _toastyService: ToastyService, private _route: ActivatedRoute) {
         this.context = dialog.context;
     }
     ngOnInit(): void {
@@ -43,28 +43,29 @@ export class CreateBucketlistComponent implements OnInit, CloseGuard, ModalCompo
         this.dialog.close();
     }
 
-    create(model: IBucketlistNew, isValid: boolean) {
+    create(model: IBucketlistItemNew, isValid: boolean) {
+        let bucketlist_id = this._route.snapshot.params["id"]
         this.submitted = true;
         console.log(model, isValid);
         if (isValid){
-            this.createBucketlist(model);
+            this.createBucketlistItem(model, bucketlist_id);
         }
     }
 
-    createBucketlist(bucketlistData: object) {
-        this._bucketlistService.createBucketlist(bucketlistData)
+    createBucketlistItem(bucketlistItemData: object, bucketlist_id: number) {
+        this._bucketlistService.createBucketlistItem(bucketlistItemData, bucketlist_id)
             .subscribe(
                 (data) => {
                     console.log("Success create: ", data);
                     this.dialog.close();
                     let toastOptions: ToastOptions = {
                         title: "",
-                        msg: "Bucketlist Successfully created",
+                        msg: "Bucketlist Item Successfully created",
                         showClose: true,
 
                     };
                     this._toastyService.success(toastOptions);
-                    this._router.navigate(['bucketlists', data.id]);
+                    this._router.navigate(['bucketlists', bucketlist_id]);
 
                 },
                 error => {

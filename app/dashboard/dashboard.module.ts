@@ -6,13 +6,14 @@ import { SharedModule } from "../shared/shared.module";
 import { BucketlistService } from "./bucketlists/bucketlists.service";
 import { BucketlistItemsService } from "./bucketlist-items/bucketlist-items.service";
 import {CreateBucketlistComponent} from "./bucketlists/create-bucketlist.component";
+import {CreateBucketlistItemComponent} from "./bucketlist-items/create-bucketlist-item.component";
 
 @NgModule({
     imports: [
         SharedModule,
         RouterModule.forChild(DASHBOARD_MODULE_ROUTES),
     ],
-    entryComponents: [CreateBucketlistComponent],
+    entryComponents: [CreateBucketlistComponent, CreateBucketlistItemComponent],
     declarations: [ MODULE_COMPONENTS ],
     providers: [ BucketlistItemGuard, BucketlistService, BucketlistItemsService ]
 })

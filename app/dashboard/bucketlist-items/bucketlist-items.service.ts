@@ -27,6 +27,19 @@ export class BucketlistItemsService {
             .catch(BucketlistItemsService.handleError);
     }
 
+    createBucketlistItem(bucketlist_item_data: object, bucketlist_id: number): Observable<IBucketlist> {
+        let options: RequestOptions = new RequestOptions({
+            headers: new Headers({ 'Content-Type': 'application/json' })
+        });
+
+        return this.authHttp
+            .post(APP_SERVER + 'bucketlists/' + bucketlist_id,
+                JSON.stringify(bucketlist_item_data),
+                options)
+            .map((response: Response) => response.json())
+            .do((data: string) => console.log('New Item Data: ' + JSON.stringify(data)))
+            .catch(BucketlistItemsService.handleError);
+    }
     // createBucketlist(bucketlist_data: object): Observable<IBucketlist> {
     //     let options: RequestOptions = new RequestOptions({
     //         headers: new Headers({ 'Content-Type': 'application/json' })

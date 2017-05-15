@@ -5,3 +5,8 @@ export interface IBucketlistItem {
     bucketlistId: number;
     done: boolean;
 }
+
+export interface IBucketlistItemNew {
+    description: string;
+    done: boolean;
+}
