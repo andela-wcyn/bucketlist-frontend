@@ -1,0 +1,43 @@
+<div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="btn btn-success" (click)="createBucketlist()"> Create Bucketlist </button>
+                </div>
+            </div>
+            <div class="row" *ngIf='bucketlists && bucketlists.length'>
+                <div class="col-lg-3 col-md-6 col-sm-6"
+                     *ngFor="let bucketlist of bucketlists">
+                    <div class="card card-stats" >
+                
+                        <div class="card-content">
+                            <h4 class="title">
+                                <a [routerLink]="[bucketlist.id]">
+                                    {{ bucketlist.description }}
+                                </a>        
+                            </h4>
+                            <p class="category">Items: {{ bucketlist.item_count }}</p>
+                            
+                        </div>
+                        <div class="card-footer">
+                            <div class="stats">
+                                <td class="td-actions text-right">
+                                    <button (click)="editBucketlist(bucketlist.id, bucketlist)" type="button" rel="tooltip" title="Edit Bucketlist" class="btn btn-primary btn-simple btn-xs">
+                                        <i class="material-icons">edit</i>
+                                    </button>
+                                    <button (click)="deleteBucketlist(bucketlist.id)" type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs">
+                                        <i class="material-icons">delete</i>
+                                    </button>
+                                </td>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row" *ngIf='bucketlists && !bucketlists.length'>
+                You have no bucketlists yet
+            </div>
+
+        </div>
+</div>

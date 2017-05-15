@@ -1,0 +1,19 @@
+<div class="wrapper">
+    
+    <div class="sidebar" data-color='red' data-image="" [hidden]="!show_sidebar">
+            <sidebar-cmp></sidebar-cmp>
+        <div class="sidebar-background" style="background-image: url(../assets/img/sidebar-4.jpg)"></div>
+    </div>
+
+    <div class="main-panel" [ngStyle]="!show_sidebar && {'width':'100%'}">
+        <navbar-cmp></navbar-cmp>
+        <ng2-toasty [position]="'top-center'"></ng2-toasty>
+        <router-outlet></router-outlet>
+        
+            <dashboard-cmp *ngIf="loggedIn()"></dashboard-cmp>
+          
+        <div *ngIf="isMaps('/maps')">
+            <footer-cmp></footer-cmp>
+        </div>
+    </div>
+</div>

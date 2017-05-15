@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <base href='/'>
+    <title>Buzz Buckets</title>
+    <meta charset="UTF-8">
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="app/app.component.css" rel="stylesheet" />
+
+    <!--  Material Dashboard CSS    -->
+    <link href="assets/css/material-dashboard.css?v=1.2.0" rel="stylesheet"/>
+
+    <!--     Fonts and icons     -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
+
+    <!-- Toastr style -->
+    <link href="node_modules/ng2-toasty/bundles/style-material.css" rel="stylesheet">
+
+    <!-- Polyfill(s) for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js" type="text/javascript"></script>
+
+    <!-- Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+      System.import('app').catch(function(err){ console.error(err); });
+    </script>
+</head>
+
+<body>
+    <bl-app>
+	  	<div class="loader">
+	    	<svg class="circular" viewBox="25 25 50 50">
+	      		<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+	    	</svg>
+	  	</div>
+	</bl-app>
+</body>
+<!--   Core JS Files   -->
+<!--<script src="assets/js/jquery-3.1.0.min.js" type="text/javascript"></script>-->
+<script src="node_modules/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="node_modules/arrive/minified/arrive.min.js"></script>
+<script src="assets/js/material.min.js" type="text/javascript"></script>
+<!--<script src="assets/js/material.min.js" type="text/javascript"></script>-->
+<!-- Material Dashboard javascript methods -->
+<script src="assets/js/material-dashboard.js?v=1.2.0"></script>
+</html>

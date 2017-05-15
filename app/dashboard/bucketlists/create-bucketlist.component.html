@@ -1,0 +1,29 @@
+<div class="row" style="padding-top: 10px; padding-right: 10px;">
+    <button (click)="closeModal()" type="button"  class="btn btn-danger btn-simple btn-xs pull-right">
+        <i class="material-icons">close</i>
+    </button>
+</div>
+<div class="row" style="padding: 10px 60px;">
+
+    <div class="col-sm-12">
+        <h4>Create a New Bucketlist</h4></div>
+    <form [formGroup]="bucketlistForm" novalidate (ngSubmit)="create(bucketlistForm.value, bucketlistForm.valid)" >
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group form-black label-floating is-empty">
+                    <label class="control-label">Description</label>
+                    <input type="text" class="form-control" required
+                           formControlName="description">
+                    <small [hidden]="bucketlistForm.controls.description.valid || (bucketlistForm.controls.description.pristine && !submitted)">
+                        Description is required.
+                    </small>
+                </div>
+
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success pull-right">Create Bucketlist</button>
+        <div class="clearfix"></div>
+    </form>
+</div>

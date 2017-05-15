@@ -1,0 +1,58 @@
+<nav class="navbar navbar-transparent navbar-absolute">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" routerLink="">{{getTitle()}}</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" *ngIf="loggedIn()">
+                    <a href="/bucketlists"  class="dropdown-toggle">
+                        My Bucketlists
+                    </a>
+                </li>
+                <li class="dropdown" *ngIf="!loggedIn()">
+                    <a [routerLink]="['login']" class="dropdown-toggle" data-toggle="dropdown">
+                            Log In
+                    </a>
+                </li>
+                <li class="dropdown" *ngIf="!loggedIn()">
+                    <a [routerLink]="['register']" class="dropdown-toggle" data-toggle="dropdown">
+                        Register
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="show-lg show-md">{{ user.username }}</span>
+                        <i class="material-icons">person</i>
+                       <span class="hidden-lg hidden-md">Profile</span>
+                    </a>
+                    <ul class="dropdown-menu" *ngIf="loggedIn()">
+                        <li><a href="#" (click)="logout()">Log Out</a></li>
+                        <li><a href="#">My Profile</a></li>
+                        
+                    </ul>
+                </li>
+            </ul>
+
+
+            <form form [formGroup]="searchForm" novalidate (ngSubmit)="queryObjects(searchForm.value, searchForm.valid)" class="navbar-form navbar-right" role="search" *ngIf="loggedIn()">
+                <div class="form-group form-black is-empty">
+                    <input type="text" class="form-control" formControlName="query" required>
+                    <small [hidden]="searchForm.controls.query.valid || (searchForm.controls.query.pristine && !submitted)">
+                        Search query cannot be empty.
+                    </small>
+                    <span class="material-input"></span>
+                </div>
+                <button class="btn btn-white btn-round btn-just-icon">
+                    <i class="material-icons">search</i><div class="ripple-container"></div>
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
