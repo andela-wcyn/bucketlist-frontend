@@ -48,7 +48,6 @@ export class EditBucketlistComponent implements OnInit, CloseGuard, ModalCompone
         this.submitted = true;
         console.log(model, isValid);
         if (isValid){
-            console.log("Item context: ", this.context);
             model["bucketlist_id"] = this.context.bucketlist_id;
             this.editBucketlistItem(model);
         }
