@@ -40,7 +40,8 @@ export class LoginComponent implements OnInit{
             
                     this.messages.push(`expiration: ${jwtHelper.getTokenExpirationDate(token)}`);
                     this.token_expired = `is expired: ${jwtHelper.isTokenExpired(token)}`;
-                        this._router.navigate(['bucketlists']);
+                    // this._router.navigate(['/bucketlists']);
+                        window.location.href = '/bucketlists';
          },
                 (error) => {
                     let errors = error.errors;

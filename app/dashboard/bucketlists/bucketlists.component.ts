@@ -25,9 +25,6 @@ declare let $:any;
 export class BucketlistsComponent implements OnInit {
     bucketlists: IBucketlist[];
     errorMessage: string;
-    successMessage: string;
-    result: any;
-    private position: string;
     // Dependency Injection
     constructor(private _bucketlistService: BucketlistService,
                 private _dialogService: ConfirmDialogService,
@@ -62,16 +59,6 @@ export class BucketlistsComponent implements OnInit {
                 this.bucketlists = data;
             });
 
-    }
-
-
-    queryBucketlists(query) {
-        this._bucketlistService.getBucketlists(query)
-            .subscribe(
-                bucketlists => {
-                    this.bucketlists = bucketlists
-                },
-                error => this.errorMessage = <any>error);
     }
 
     createBucketlist() {
