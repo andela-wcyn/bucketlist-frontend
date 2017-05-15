@@ -10,6 +10,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { TypographyComponent } from './typography/typography.component';
 import { UpgradeComponent } from './upgrade/upgrade.component';
 import { ProfileComponent } from "./profile/profile.component";
+import {CreateBucketlistComponent} from "./bucketlists/create-bucketlist.component";
 
 export const DASHBOARD_MODULE_ROUTES: Route[] = [ 
     { path: 'bucketlists', component: BucketlistsComponent},
@@ -26,6 +27,7 @@ export const DASHBOARD_MODULE_ROUTES: Route[] = [
 export const MODULE_COMPONENTS = [
     BucketlistsComponent,
     BucketlistItemsComponent,
+    CreateBucketlistComponent,
     ProfileComponent,
     TableComponent,
     IconsComponent,

@@ -4,6 +4,8 @@ import { Component, OnInit} from '@angular/core';
 // import { CreateBucketlistComponent } from "./create-bucketlist.component";
 import {ConfirmDialogService} from "../../shared/dialog/confirm-dialog.service";
 import {ToastOptions, ToastyConfig, ToastyService} from "ng2-toasty";
+import {MdDialog} from "@angular/material";
+import {CreateBucketlistComponent} from "./create-bucketlist.component";
 declare let $:any;
 
 @Component({
@@ -21,7 +23,8 @@ export class BucketlistsComponent implements OnInit {
     // Dependency Injection
     constructor(private _bucketlistService: BucketlistService,
                 private _dialogService: ConfirmDialogService,
-                private _toastyService: ToastyService, private _toastyConfig: ToastyConfig) {
+                private _toastyService: ToastyService, private _toastyConfig: ToastyConfig,
+                public dialog: MdDialog) {
         // this._toastyService.position$.subscribe(pos => this.position = pos);
         this._toastyConfig.theme = 'material';
     }
@@ -35,9 +38,10 @@ export class BucketlistsComponent implements OnInit {
     }
 
     createBucketlist() {
-        this._dialogService
-            .confirm('Confirm Dialog', 'Are you sure you want to do this?')
-            .subscribe((res) => this.result = res);
+        this.dialog.open(CreateBucketlistComponent);
+        // this._dialogService
+        //     .confirm('Confirm Dialog', 'Are you sure you want to do this?')
+        //     .subscribe((res) => this.result = res);
 
     }
 
