@@ -86,7 +86,6 @@ export class AppComponent implements OnInit{
     }
 
     loggedIn() {
-        console.log("Not expired??  ", tokenNotExpired());
         return tokenNotExpired();
     }
 

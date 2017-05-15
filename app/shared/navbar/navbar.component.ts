@@ -22,10 +22,12 @@ export class NavbarComponent implements OnInit{
             console.log("token here: ", token)
             if (token) {
                 let jwtHelper: JwtHelper = new JwtHelper();
-                this.user = `${JSON.stringify(jwtHelper.decodeToken(token))}`        
-                this.user = JSON.parse(this.user);
-                console.log("Routed Users: " + this.user.username);
-                console.log(val instanceof NavigationEnd )
+                if (tokenNotExpired()) {
+                    this.user = `${JSON.stringify(jwtHelper.decodeToken(token))}`
+                    this.user = JSON.parse(this.user);
+                    console.log("Routed Users: " + this.user.username);
+                    console.log(val instanceof NavigationEnd)
+                }
             }
         });
     }

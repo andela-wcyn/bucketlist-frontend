@@ -28,19 +28,19 @@ export class BucketlistService {
             .catch(BucketlistService.handleError);
     }
 
-    // createBucketlist(bucketlist_data: object): Observable<IBucketlist> {
-    //     let options: RequestOptions = new RequestOptions({
-    //         headers: new Headers({ 'Content-Type': 'application/json' })
-    //     });
-    //
-    //     return this.authHttp
-    //         .post(APP_SERVER + 'auth/login',
-    //             JSON.stringify(bucketlist_data),
-    //             options)
-    //         .map((response: Response) => response.json().data[0])
-    //         .do((data: string) => console.log('USer Data: ' + JSON.stringify(data)))
-    //         .catch(BucketlistService.handleError);
-    // }
+    createBucketlist(bucketlist_data: object): Observable<IBucketlist> {
+        let options: RequestOptions = new RequestOptions({
+            headers: new Headers({ 'Content-Type': 'application/json' })
+        });
+
+        return this.authHttp
+            .post(APP_SERVER + 'bucketlists/',
+                JSON.stringify(bucketlist_data),
+                options)
+            .map((response: Response) => response.json().data[0])
+            .do((data: string) => console.log('USer Data: ' + JSON.stringify(data)))
+            .catch(BucketlistService.handleError);
+    }
 
     // getBucketlists(): Observable<IBucketlist[]> {
     //     let headers = new Headers();

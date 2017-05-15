@@ -13,6 +13,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { AuthModule } from "./auth/auth.module";
 import { NotFoundComponent } from "./error-pages/not-found.component";
 import { SharedModule } from "./shared/shared.module";
+import { MaterialModule } from "@angular/material";
 
 @NgModule({
     imports:      [
@@ -21,6 +22,7 @@ import { SharedModule } from "./shared/shared.module";
         AuthModule,
         BrowserModule,
         SharedModule,
+        MaterialModule.forRoot(),
         RouterModule.forRoot([
             { path: '', component: HomeComponent },
             { path: '', redirectTo: 'home', pathMatch: 'full' },
