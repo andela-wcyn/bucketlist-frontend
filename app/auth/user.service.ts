@@ -31,7 +31,7 @@ export class UserService {
             JSON.stringify(user_data),
             options)
             .map((response: Response) => response.json())
-            .do(data=> console.log('User Data: ' + JSON.stringify(data)))
+            .do(data=> console.log('User data retrieved'))
             .catch(this.handleError);
     }
 
@@ -54,7 +54,7 @@ export class UserService {
             JSON.stringify(user_data),
             options)
             .map((response: Response) => response.json())
-            .do(data=> console.log('Registered Data: ' + JSON.stringify(data)))
+            .do(data=> console.log('Registered'))
             .catch(this.handleError);
     }
 

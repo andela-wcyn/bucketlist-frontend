@@ -40,7 +40,7 @@ export class BucketlistService {
             .get(url, options)
             .map((response: Response) => response.json().data[0])
             .do((data: string) => {
-                console.log('Got bucketlists Data: ');
+                console.log('Retrieved  bucketlists data');
                 if (query) {
                     this.queriedBucketlists.emit(data);
                 }
@@ -56,8 +56,7 @@ export class BucketlistService {
         return this.authHttp
             .delete(APP_SERVER + 'bucketlists/' + id, options)
             .map((response: Response) => response.json().message)
-            .do((data: any) => console.log('Delete Message: ',
-                data))
+            .do((data: any) => console.log('Deleted bucketlist'))
             .catch(BucketlistService.handleError);
     }
 

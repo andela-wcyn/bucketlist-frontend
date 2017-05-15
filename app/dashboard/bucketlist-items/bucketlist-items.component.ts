@@ -98,7 +98,6 @@ export class BucketlistItemsComponent implements OnInit{
     }
 
     setItemDone(event: any, bucketlist_id: number, item_id: number, bucketlistItem: object){
-        console.log("Checked button: ", event.target.checked);
         let bucketlistItemData = {
             "done": event.target.checked,
             "description": bucketlistItem["description"]

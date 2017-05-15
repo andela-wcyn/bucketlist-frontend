@@ -32,7 +32,6 @@ export class BucketlistItemsService {
             .get(url, options)
             .map((response: Response) => response.json().data.bucketlist)
             .do((data: string) => {
-                // console.log('Got bucketlistItems Data');
                 if (query) {
                     this.queriedBucketlistItems.emit(data);
                 }
