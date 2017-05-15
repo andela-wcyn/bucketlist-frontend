@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { Response, Headers, RequestOptions} from '@angular/http';
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable, Output} from '@angular/core';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
@@ -12,6 +12,7 @@ import { IBucketlist } from "../bucketlists/bucketlist";
 
 @Injectable()
 export class BucketlistItemsService {
+    @Output() newBucketlistItem: EventEmitter<any> = new EventEmitter();
     constructor(public authHttp: AuthHttp) {}
 
     getBucketlistItems(id: number): Observable<IBucketlist> {
@@ -37,7 +38,9 @@ export class BucketlistItemsService {
                 JSON.stringify(bucketlist_item_data),
                 options)
             .map((response: Response) => response.json())
-            .do((data: string) => console.log('New Item Data: ' + JSON.stringify(data)))
+            .do((data: string) => {
+                this.newBucketlistItem.emit(data);
+            })
             .catch(BucketlistItemsService.handleError);
     }
 

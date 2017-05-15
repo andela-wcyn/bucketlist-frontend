@@ -11,6 +11,7 @@ import {overlayConfigFactory} from "angular2-modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {IBucketlistItem} from "../bucketlist-items/bucketlist-item";
 import {DataObjectsService} from "../data-objects.service";
+import {ConfirmDialogComponent} from "../../shared/dialog/confirm-dialog.component";
 
 declare let $:any;
 
@@ -35,7 +36,6 @@ export class BucketlistsComponent implements OnInit {
                 public modal: Modal,
                 vcRef: ViewContainerRef) {
         modal.overlay.defaultViewContainer = vcRef;
-        // this._toastyService.position$.subscribe(pos => this.position = pos);
         this._toastyConfig.theme = 'material';
     }
 
@@ -48,6 +48,16 @@ export class BucketlistsComponent implements OnInit {
                     console.log("Bucketlists: ", this.bucketlists)
                 },
                 error => this.errorMessage = <any>error);
+        this._bucketlistService.newBucketlist.subscribe(
+            (data) => {
+                console.log("Subscribed!!", data);
+                this.bucketlists.push(data);
+            })
+        this._dialogService.confirm.subscribe((data: boolean) =>
+        {
+            console.log("Confirm in service? ", data);
+
+        });
     }
 
     createBucketlist() {
@@ -56,14 +66,14 @@ export class BucketlistsComponent implements OnInit {
     }
 
     deleteBucketlist(id: number) {
-        this._dialogService
-            .confirm('Delete Bucketlist? ', 'Are you sure you want to delete this Bucketlist? ')
+        this.modal.open(ConfirmDialogComponent,
+            overlayConfigFactory({ num1: 2, num2: 3 }, BSModalContext));
+        this._dialogService.confirm
             .subscribe((result) => {
                 if (result) {
                     this._bucketlistService.deleteBucketlist(id)
                         .subscribe(
                             (message) => {
-                                // console.log("Success delete: ", message);
                                 let toastOptions: ToastOptions = {
                                     title: "",
                                     msg: message,
@@ -75,8 +85,6 @@ export class BucketlistsComponent implements OnInit {
                                 this._toastyService.success(toastOptions);
                                 let index = this._dos.deepIndexOf(this.bucketlists, "id", id)
                                 this.bucketlists.splice(index, 1);
-                                // this.bucketlists.pop()
-                                // this._toastyService.default("Successfully Deleted!!");
                             },
                             error => this.errorMessage = <any>error);
                 }

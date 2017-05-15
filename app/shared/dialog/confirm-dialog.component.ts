@@ -1,27 +1,60 @@
-import { MdDialogRef } from '@angular/material';
-import { Component } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+
+import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ToastOptions, ToastyService} from "ng2-toasty";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ConfirmDialogService} from "./confirm-dialog.service";
+
+export class CustomModalContext extends BSModalContext {}
 
 @Component({
     selector: 'confirm-dialog',
-    template: `
-        <div class="row">
-            <div class="col-sm-12">
-                <h3>{{ title }}</h3>
-                <p>{{ message }}</p>
-                <button type="button" md-raised-button
-                        (click)="dialogRef.close(true)">OK</button>
-                <button type="button" md-button
-                        (click)="dialogRef.close()">Cancel</button>
-            </div>
-        </div>
-    `,
+    moduleId: module.id,
+    templateUrl: 'confirm-dialog.component.html',
 })
-export class ConfirmDialogComponent {
+export class ConfirmDialogComponent implements OnInit, CloseGuard, ModalComponent<CustomModalContext> {
+    bucketlistItemForm: FormGroup;
 
-    public title: string;
-    public message: string;
 
-    constructor(public dialogRef: MdDialogRef<ConfirmDialogComponent>) {
+    constructor(public dialog: DialogRef<CustomModalContext>,
+                private _fb: FormBuilder, private _router: Router,
+                private _toastyService: ToastyService,
+                private _route: ActivatedRoute,
+                private _confirmDialogService: ConfirmDialogService) {
+        this.context = dialog.context;
+    }
+    ngOnInit(): void {
+        this.bucketlistItemForm = this._fb.group({
+            description: ['', [ <any>Validators.required,
+                <any>Validators.maxLength(100)]]
+        });
+    }
 
+    context: CustomModalContext;
+    submitted = false;
+    data: string;
+    description: string;
+
+    public wrongAnswer: boolean;
+
+
+    closeModal(){
+        this.dialog.close();
+    }
+
+    confirm(confirm: boolean) {
+        this._confirmDialogService.confirmAction = confirm;
+        this.closeModal();
+    }
+
+
+    beforeDismiss(): boolean {
+        return true;
+    }
+
+    beforeClose(): boolean {
+        return this.wrongAnswer;
     }
 }

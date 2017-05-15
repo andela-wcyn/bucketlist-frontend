@@ -8,6 +8,7 @@ import {BSModalContext} from "angular2-modal/plugins/bootstrap";
 import {ToastOptions, ToastyConfig, ToastyService} from "ng2-toasty";
 import {ConfirmDialogService} from "../../shared/dialog/confirm-dialog.service";
 import {DataObjectsService} from "../data-objects.service";
+import {ConfirmDialogComponent} from "../../shared/dialog/confirm-dialog.component";
 declare let $:any;
 
 @Component({
@@ -30,6 +31,7 @@ export class BucketlistItemsComponent implements OnInit{
                 public modal: Modal, private _toastyService: ToastyService,
                 private _toastyConfig: ToastyConfig,
                 private _dos: DataObjectsService,
+                private _confirmDialogService: ConfirmDialogService,
                 vcRef: ViewContainerRef) {
         modal.overlay.defaultViewContainer = vcRef;
         this._toastyConfig.theme = 'material';
@@ -44,25 +46,17 @@ export class BucketlistItemsComponent implements OnInit{
             }, error => this.errorMessage = <any>error);
         console.log("bucketlist here: ", this.bucketlist);
 
-        // this.sub = this._route.params.subscribe(params => {
-        //     this.id = +params['id']; // (+) converts string 'id' to a number
-        //
-        //     // In a real app: dispatch action to load the details here.
-        // });
-        // let id = +this._route.snapshot.params["id"];
-
-        // $('[data-toggle="checkbox"]').each(function () {
-        //     if($(this).data('toggle') == 'switch') return;
-        //
-        //     var $checkbox = $(this);
-        //     $checkbox.checkbox();
-        // });
-        // initDemo();
+        this._bucketlistItemsService.newBucketlistItem.subscribe(
+            (data) => {
+                console.log("Subscribed!!", data)
+                this.bucketlist.items.push(data);
+            })
     }
 
     deleteBucketlistItem(id: number, item_id: number) {
-        this._dialogService
-            .confirm('Delete Item? ', 'Are you sure you want to delete this item? ')
+        this.modal.open(ConfirmDialogComponent,
+            overlayConfigFactory({ num1: 2, num2: 3 }, BSModalContext));
+        this._dialogService.confirm
             .subscribe((result) => {
                 if (result) {
                     this._bucketlistItemsService.deleteBucketlistItem(id, item_id)
@@ -84,11 +78,14 @@ export class BucketlistItemsComponent implements OnInit{
                             error => this.errorMessage = <any>error);
                 }
             });
-
     }
 
     createBucketlistItem() {
         return this.modal.open(CreateBucketlistItemComponent,
             overlayConfigFactory({ num1: 2, num2: 3 }, BSModalContext));
+    }
+
+    setItemDone(checked: any){
+
     }
 }

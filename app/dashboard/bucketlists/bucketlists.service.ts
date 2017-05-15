@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { Response, Headers, RequestOptions} from '@angular/http';
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable, Output} from '@angular/core';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
@@ -13,6 +13,8 @@ import { AuthHttp } from "angular2-jwt";
 
 @Injectable()
 export class BucketlistService {
+    @Output() newBucketlist: EventEmitter<any> = new EventEmitter();
+
     constructor(public authHttp: AuthHttp) {}
 
     getBucketlists(): Observable<IBucketlist[]> {
@@ -51,24 +53,11 @@ export class BucketlistService {
                 JSON.stringify(bucketlist_data),
                 options)
             .map((response: Response) => response.json())
-            .do((data: string) => console.log('USer Data: ' + JSON.stringify(data)))
+            .do((data: string) => {
+                this.newBucketlist.emit(data);
+            })
             .catch(BucketlistService.handleError);
     }
-
-    // getBucketlists(): Observable<IBucketlist[]> {
-    //     let headers = new Headers();
-    //     this.createAuthorizationHeader(headers);
-    //     return this._http.get(this._bucketlistsUrl, {headers: headers})
-    //                 .map((response: Response) => <IBucketlist[]>response.json().data[0])
-    //                 .do(data=> console.log('All: bucketlists retrieved'))
-    //                 .catch(this.handleError);
-    //     // return [
-    //     // {"id": 1,"description": "My first Item", "detailsLink": "link1", "itemCount": 3, "items": []},
-    //     // {"id": 2,"description": "My Other item", "detailsLink": "link2", "itemCount": 1, "items": []},
-    //     // {"id": 3,"description": "And another item", "detailsLink": "link3", "itemCount": 2, "items": []},
-    //
-    //     // ]
-    // }
 
     private static handleError (error: Response) {
         console.log(error);

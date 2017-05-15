@@ -6,16 +6,16 @@
                 </div>
             </div>
             <div class="row" *ngIf='bucketlists && bucketlists.length'>
-                <div class="col-lg-3 col-md-6 col-sm-6" style="height: 200px; min-height: 200px; max-height: 200px"
+                <div class="col-lg-3 col-md-6 col-sm-6"
                      *ngFor="let bucketlist of bucketlists">
                     <div class="card card-stats" >
                 
                         <div class="card-content">
-                            <h3 class="title">
+                            <h4 class="title">
                                 <a [routerLink]="[bucketlist.id]">
                                     {{ bucketlist.description }}
                                 </a>        
-                            </h3>
+                            </h4>
                             <p class="category">Items: {{ bucketlist.item_count }}</p>
                             
                         </div>

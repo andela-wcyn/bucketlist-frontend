@@ -1,21 +1,19 @@
 import { Observable } from 'rxjs/Rx';
 import { ConfirmDialogComponent } from './confirm-dialog.component';
 import { MdDialogRef, MdDialog, MdDialogConfig } from '@angular/material';
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable, Input, Output} from '@angular/core';
 
 @Injectable()
 export class ConfirmDialogService {
+    @Output() confirm: EventEmitter<any> = new EventEmitter();
+    constructor() { }
 
-    constructor(private dialog: MdDialog) { }
-
-    public confirm(title: string, message: string): Observable<boolean> {
-
-        let dialogRef: MdDialogRef<ConfirmDialogComponent>;
-
-        dialogRef = this.dialog.open(ConfirmDialogComponent);
-        dialogRef.componentInstance.title = title;
-        dialogRef.componentInstance.message = message;
-
-        return dialogRef.afterClosed();
+    @Input('confirmAction')
+    set confirmAction(value: boolean) {
+        this.confirm.emit(value);
     }
+    // public setConfirm(confirm: boolean): void {
+    //     this.confirm.emit(confirm);
+    //     console.log("Emitted: ", confirm);
+    // }
 }

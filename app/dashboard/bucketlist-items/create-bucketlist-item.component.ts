@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
@@ -17,6 +17,7 @@ export class CustomModalContext extends BSModalContext {}
 })
 export class CreateBucketlistItemComponent implements OnInit, CloseGuard, ModalComponent<CustomModalContext> {
     bucketlistItemForm: FormGroup;
+
 
     constructor(public dialog: DialogRef<CustomModalContext>,
                 private _bucketlistService: BucketlistItemsService,
@@ -65,7 +66,7 @@ export class CreateBucketlistItemComponent implements OnInit, CloseGuard, ModalC
 
                     };
                     this._toastyService.success(toastOptions);
-                    this._router.navigate(['bucketlists', bucketlist_id]);
+                    // this.bucketlist.items.splice(index, 1);
 
                 },
                 error => {
@@ -73,7 +74,6 @@ export class CreateBucketlistItemComponent implements OnInit, CloseGuard, ModalC
                         title: "",
                         msg: error,
                         showClose: true,
-                        timeout: 5000
 
                     };
                     this._toastyService.error(toastOptions);
