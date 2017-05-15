@@ -35,7 +35,7 @@ export class BucketlistService {
 
         return this.authHttp
             .delete(APP_SERVER + 'bucketlists/' + id, options)
-            .map((response: Response) => response.json())
+            .map((response: Response) => response.json().message)
             .do((data: any) => console.log('Delete Message: ',
                 data))
             .catch(BucketlistService.handleError);

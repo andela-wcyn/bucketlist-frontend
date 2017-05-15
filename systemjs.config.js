@@ -27,17 +27,18 @@
 
         // other libraries
         'rxjs': 'npm:rxjs',
-        'angular2-jwt': 'node_modules/angular2-jwt/angular2-jwt.js'
+        'angular2-jwt': 'npm:angular2-jwt/angular2-jwt.js',
+        'ng2-toasty': 'node_modules/ng2-toasty/bundles/index.umd.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
-      app: {
-        main: './main.js',
-        defaultExtension: 'js'
-      },
-      rxjs: {
-        defaultExtension: 'js'
-      }
+        app: {
+            main: './main.js',
+            defaultExtension: 'js'
+        },
+        rxjs: {
+            defaultExtension: 'js'
+        }
     }
   });
 })(this);

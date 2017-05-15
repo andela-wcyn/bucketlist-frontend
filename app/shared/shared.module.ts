@@ -6,7 +6,10 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { ConfirmDialogComponent } from "./dialog/confirm-dialog.component";
 import { MaterialModule } from "@angular/material";
-import { ConfirmDialogService } from "./dialog/dialog.service";
+import { ConfirmDialogService } from "./dialog/confirm-dialog.service";
+import { ToastComponent } from "./toast/toast.component";
+import { ToastyModule } from "ng2-toasty";
+import {FormsModule} from "@angular/forms";
 
 export const APP_SERVER = 'http://localhost:5000/api/v1/';
 export const NO_SIDEBAR_ROUTES: string[] = ["", "/login", "/register"] ;
@@ -15,12 +18,14 @@ export const NO_SIDEBAR_ROUTES: string[] = ["", "/login", "/register"] ;
     imports: [
         RouterModule,
         CommonModule,
-        MaterialModule.forRoot(),
+        FormsModule,
+        ToastyModule.forRoot(),
+        MaterialModule.forRoot()
     ],
     declarations: [ FooterComponent, NavbarComponent, SidebarComponent,
-                    ConfirmDialogComponent ],
+                    ConfirmDialogComponent, ToastComponent ],
     exports: [ FooterComponent, NavbarComponent, SidebarComponent,
-        CommonModule, RouterModule,ConfirmDialogComponent ],
+        CommonModule, ConfirmDialogComponent, RouterModule, FormsModule ],
     providers: [ ConfirmDialogService ],
     entryComponents: [ ConfirmDialogComponent ]
 })

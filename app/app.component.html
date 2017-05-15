@@ -7,6 +7,7 @@
 
     <div class="main-panel" [ngStyle]="!show_sidebar && {'width':'100%'}">
         <navbar-cmp></navbar-cmp>
+        <ng2-toasty [position]="top-center"></ng2-toasty>
         <router-outlet></router-outlet>
         
             <dashboard-cmp *ngIf="loggedIn()"></dashboard-cmp>

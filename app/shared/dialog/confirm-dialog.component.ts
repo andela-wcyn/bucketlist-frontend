@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
     template: `
         <div class="row">
             <div class="col-sm-12">
-                <p>{{ title }}</p>
+                <h3>{{ title }}</h3>
                 <p>{{ message }}</p>
                 <button type="button" md-raised-button
                         (click)="dialogRef.close(true)">OK</button>
