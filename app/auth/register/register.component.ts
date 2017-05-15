@@ -49,7 +49,7 @@ export class RegisterComponent implements OnInit{
                             timeout: 5000,
 
                         };
-                        this._toastyService.error(toastOptions);
+                        this._toastyService.success(toastOptions);
                         this._router.navigate(['login']);
          },
                 (error) => {
