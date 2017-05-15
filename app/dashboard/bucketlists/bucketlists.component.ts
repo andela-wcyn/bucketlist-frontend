@@ -27,7 +27,7 @@ export class BucketlistsComponent implements OnInit {
     bucketlists: IBucketlist[];
     errorMessage: string;
     pages: number[];
-    limit: number = 5;
+    limit: number = 6;
     query: string = "";
     currentPage: number = 1;
 
