@@ -14,6 +14,7 @@ import { AuthHttp } from "angular2-jwt";
 @Injectable()
 export class BucketlistService {
     @Output() newBucketlist: EventEmitter<any> = new EventEmitter();
+    @Output() editedBucketlist: EventEmitter<any> = new EventEmitter();
 
     constructor(public authHttp: AuthHttp) {}
 
@@ -58,6 +59,22 @@ export class BucketlistService {
             .catch(BucketlistService.handleError);
     }
 
+    editBucketlist(bucketlist_data: object, bucketlist_id: number):
+    Observable<IBucketlist> {
+        let options: RequestOptions = new RequestOptions({
+            headers: new Headers({ 'Content-Type': 'application/json' })
+        });
+
+        return this.authHttp
+            .put(APP_SERVER + 'bucketlists/' + bucketlist_id,
+                JSON.stringify(bucketlist_data),
+                options)
+            .map((response: Response) => response.json())
+            .do((data: string) => {
+                this.editedBucketlist.emit(data);
+            })
+            .catch(BucketlistService.handleError);
+    }
     private static handleError (error: Response) {
         console.log(error);
         return Observable.throw(error.json() || "Server Error")

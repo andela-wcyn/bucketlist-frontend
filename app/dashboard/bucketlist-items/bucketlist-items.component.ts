@@ -65,27 +65,6 @@ export class BucketlistItemsComponent implements OnInit{
         bucketlistItem["item_id"] = item_id;
         this.modal.open(EditBucketlistItemComponent,
             overlayConfigFactory(bucketlistItem, BSModalContext));
-        this._confirmDialogService.confirm
-            .subscribe((result) => {
-                if (result) {
-                    this._bucketlistItemsService.deleteBucketlistItem(id, item_id)
-                        .subscribe(
-                            (message) => {
-                                let toastOptions: ToastOptions = {
-                                    title: "",
-                                    msg: message,
-                                    showClose: true,
-                                    timeout: 5000,
-
-                                };
-                                // Add see all possible types in one shot
-                                this._toastyService.success(toastOptions);
-                                let index = this._dos.deepIndexOf(this.bucketlist.items, "id", item_id)
-                                this.bucketlist.items.splice(index, 1);
-                            },
-                            error => this.errorMessage = <any>error);
-                }
-            });
     }
 
     deleteBucketlistItem(id: number, item_id: number) {

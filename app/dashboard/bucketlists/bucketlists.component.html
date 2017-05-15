@@ -22,7 +22,7 @@
                         <div class="card-footer">
                             <div class="stats">
                                 <td class="td-actions text-right">
-                                    <button (click)="editBucketlist()" type="button" rel="tooltip" title="Edit Bucketlist" class="btn btn-primary btn-simple btn-xs">
+                                    <button (click)="editBucketlist(bucketlist.id, bucketlist)" type="button" rel="tooltip" title="Edit Bucketlist" class="btn btn-primary btn-simple btn-xs">
                                         <i class="material-icons">edit</i>
                                     </button>
                                     <button (click)="deleteBucketlist(bucketlist.id)" type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs">

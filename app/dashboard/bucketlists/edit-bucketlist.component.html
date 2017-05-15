@@ -6,8 +6,8 @@
 <div class="row" style="padding: 10px 60px;">
 
     <div class="col-sm-12">
-        <h4>Edit Bucketlist Item</h4></div>
-    <form [formGroup]="bucketlistItemForm" novalidate (ngSubmit)="edit(bucketlistItemForm.value, bucketlistItemForm.valid)" >
+        <h4>Edit Bucketlist</h4></div>
+    <form [formGroup]="bucketlistForm" novalidate (ngSubmit)="edit(bucketlistForm.value, bucketlistForm.valid)" >
 
         <div class="row">
             <div class="col-md-12">
@@ -15,7 +15,7 @@
                     <label class="control-label">Description</label>
                     <input type="text" class="form-control" required
                            formControlName="description">
-                    <small [hidden]="bucketlistItemForm.controls.description.valid || (bucketlistItemForm.controls.description.pristine && !submitted)">
+                    <small [hidden]="bucketlistForm.controls.description.valid || (bucketlistForm.controls.description.pristine && !submitted)">
                         Description is required.
                     </small>
                 </div>

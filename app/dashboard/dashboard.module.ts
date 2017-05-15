@@ -9,6 +9,7 @@ import { CreateBucketlistComponent } from "./bucketlists/create-bucketlist.compo
 import { CreateBucketlistItemComponent } from "./bucketlist-items/create-bucketlist-item.component";
 import { DataObjectsService } from "./data-objects.service";
 import { EditBucketlistItemComponent } from "./bucketlist-items/edit-bucketlist-item.component";
+import {EditBucketlistComponent} from "./bucketlists/edit-bucketlist.component";
 
 @NgModule({
     imports: [
@@ -16,7 +17,7 @@ import { EditBucketlistItemComponent } from "./bucketlist-items/edit-bucketlist-
         RouterModule.forChild(DASHBOARD_MODULE_ROUTES),
     ],
     entryComponents: [ CreateBucketlistComponent, CreateBucketlistItemComponent,
-                        EditBucketlistItemComponent],
+                        EditBucketlistItemComponent, EditBucketlistComponent],
     declarations: [ MODULE_COMPONENTS ],
     providers: [ BucketlistItemGuard, BucketlistService, BucketlistItemsService,
     DataObjectsService]

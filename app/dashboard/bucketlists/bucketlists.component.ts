@@ -12,6 +12,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {IBucketlistItem} from "../bucketlist-items/bucketlist-item";
 import {DataObjectsService} from "../data-objects.service";
 import {ConfirmDialogComponent} from "../../shared/dialog/confirm-dialog.component";
+import {EditBucketlistComponent} from "./edit-bucketlist.component";
 
 declare let $:any;
 
@@ -51,12 +52,24 @@ export class BucketlistsComponent implements OnInit {
             (data) => {
                 this.bucketlists.push(data);
             })
+        this._bucketlistService.editedBucketlist.subscribe(
+            (data) => {
+                let index = this._dos.deepIndexOf(this.bucketlists, "id", data.id)
+                this.bucketlists.splice(index, 1, data);
+            })
     }
 
     createBucketlist() {
         return this.modal.open(CreateBucketlistComponent,
             overlayConfigFactory({ num1: 2, num2: 3 }, BSModalContext));
     }
+
+    editBucketlist(bucketlist_id: number, bucketlistItem: object) {
+        bucketlistItem["bucketlist_id"] = bucketlist_id;
+        this.modal.open(EditBucketlistComponent,
+            overlayConfigFactory(bucketlistItem, BSModalContext));
+    }
+
 
     deleteBucketlist(id: number) {
         this.modal.open(ConfirmDialogComponent,
