@@ -6,7 +6,7 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { ConfirmDialogComponent } from "./dialog/confirm-dialog.component";
 import { MaterialModule } from "@angular/material";
-import { DialogService } from "./dialog/dialog.service";
+import { ConfirmDialogService } from "./dialog/dialog.service";
 
 export const APP_SERVER = 'http://localhost:5000/api/v1/';
 export const NO_SIDEBAR_ROUTES: string[] = ["", "/login", "/register"] ;
@@ -21,7 +21,7 @@ export const NO_SIDEBAR_ROUTES: string[] = ["", "/login", "/register"] ;
                     ConfirmDialogComponent ],
     exports: [ FooterComponent, NavbarComponent, SidebarComponent,
         CommonModule, RouterModule,ConfirmDialogComponent ],
-    providers: [ DialogService ],
+    providers: [ ConfirmDialogService ],
     entryComponents: [ ConfirmDialogComponent ]
 })
 export class SharedModule{}

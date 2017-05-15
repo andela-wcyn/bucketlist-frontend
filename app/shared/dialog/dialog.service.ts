@@ -4,7 +4,7 @@ import { MdDialogRef, MdDialog, MdDialogConfig } from '@angular/material';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class DialogService {
+export class ConfirmDialogService {
 
     constructor(private dialog: MdDialog) { }
 

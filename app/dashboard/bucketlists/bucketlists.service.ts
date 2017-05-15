@@ -28,6 +28,19 @@ export class BucketlistService {
             .catch(BucketlistService.handleError);
     }
 
+    deleteBucketlist(id: number): Observable<object> {
+        let options: RequestOptions = new RequestOptions({
+            headers: new Headers({ 'Content-Type': 'application/json' })
+        });
+
+        return this.authHttp
+            .delete(APP_SERVER + 'bucketlists/' + id, options)
+            .map((response: Response) => response.json())
+            .do((data: any) => console.log('Delete Message: ',
+                data))
+            .catch(BucketlistService.handleError);
+    }
+
     createBucketlist(bucketlist_data: object): Observable<IBucketlist> {
         let options: RequestOptions = new RequestOptions({
             headers: new Headers({ 'Content-Type': 'application/json' })

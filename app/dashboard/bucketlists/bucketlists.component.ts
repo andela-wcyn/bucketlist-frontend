@@ -3,7 +3,7 @@ import { BucketlistService } from './bucketlists.service';
 import { Component, OnInit } from '@angular/core';
 // import { CreateBucketlistComponent } from "./create-bucketlist.component";
 import { MdDialog } from "@angular/material";
-import {DialogService} from "../../shared/dialog/dialog.service";
+import {ConfirmDialogService} from "../../shared/dialog/dialog.service";
 
 declare let $:any;
 
@@ -16,10 +16,11 @@ declare let $:any;
 export class BucketlistsComponent implements OnInit {
     bucketlists: IBucketlist[];
     errorMessage: string;
+    successMessage: object;
     result: any;
     // Dependency Injection
     constructor(private _bucketlistService: BucketlistService,
-                private _dialogService: DialogService) {
+                private _dialogService: ConfirmDialogService) {
 
     }
 
@@ -47,12 +48,19 @@ export class BucketlistsComponent implements OnInit {
 
     }
 
-    deleteBucketlist() {
+    deleteBucketlist(id: number) {
         this._dialogService
-            .confirm('Confirm Dialog', 'Are you sure you want to Delete this Bucketlist?')
-            .subscribe((res) => {
-                console.log("Result: " + res)
-                this.result = res
+            .confirm('Delete Bucketlist? ', 'Are you sure you want to delete this Bucketlist? ' + id)
+            .subscribe((result) => {
+                if (result) {
+                    this._bucketlistService.deleteBucketlist(id)
+                        .subscribe(
+                            (message: object) => {
+                                this.successMessage = message
+                                console.log("Success delete: ", message);
+                            },
+                            error => this.errorMessage = <any>error);
+                }
         });
 
     }
