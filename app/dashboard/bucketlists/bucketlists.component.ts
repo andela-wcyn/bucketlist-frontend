@@ -89,7 +89,6 @@ export class BucketlistsComponent implements OnInit {
                                     timeout: 5000,
 
                                 };
-                                // Add see all possible types in one shot
                                 this._toastyService.success(toastOptions);
                                 let index = this._dos.deepIndexOf(this.bucketlists, "id", id)
                                 this.bucketlists.splice(index, 1);

@@ -3,6 +3,7 @@ import { JwtHelper } from 'angular2-jwt';
 import {UserService} from "../user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {ToastOptions, ToastyConfig, ToastyService} from "ng2-toasty";
 
 
 @Component({
@@ -30,9 +31,12 @@ export class RegisterComponent implements OnInit{
     
     constructor(private _userservice: UserService,
                 private _fb: FormBuilder,
-                private _router: Router){
-
+                private _router: Router,
+                private _toastyConfig: ToastyConfig,
+                private _toastyService: ToastyService){
+        this._toastyConfig.theme = 'material';
     }
+
     registerUser(userData: object) {
         this._userservice.registerUser(userData.password, userData.username, userData.email)
             .subscribe(
@@ -48,9 +52,22 @@ export class RegisterComponent implements OnInit{
                         this._router.navigate(['login']);
          },
                 (error) => {
-                    let errors = error.errors;
-                    console.log("Errors: ", error);
-                    this.errorMessage = `registration failed: ${errors}`;
+                    if (error.errors) {
+                        let errors = error.errors;
+                        console.log("Errors: ", error);
+                        let toastOptions: ToastOptions = {
+                            title: "",
+                            msg: errors,
+                            showClose: true,
+                            timeout: 5000,
+
+                        };
+                        this._toastyService.error(toastOptions);
+                        this.errorMessage = `Registration failed: ${errors}`;
+                    }
+                    if (error.field_errors) {
+                        
+                    }
                 }
             );
     }

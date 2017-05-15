@@ -9,7 +9,7 @@
                     <p class="category">Join Buzz Buckets</p>
                 </div>
                 <div class="card-content">
-                    <form [formGroup]="userForm" novalidate (ngSubmit)="create(userForm.value, userForm.valid)">
+                    <form [formGroup]="userForm" novalidate (ngSubmit)="registerUser(userForm.value, userForm.valid)">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-black label-floating is-empty">

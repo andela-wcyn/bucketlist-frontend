@@ -3,6 +3,7 @@ import { JwtHelper } from 'angular2-jwt';
 import {UserService} from "../user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {ToastOptions, ToastyConfig, ToastyService} from "ng2-toasty";
 
 
 @Component({
@@ -27,7 +28,10 @@ export class LoginComponent implements OnInit{
     
     constructor(private _userservice: UserService,
                 private _fb: FormBuilder,
-                private _router: Router){}
+                private _toastyConfig: ToastyConfig,
+                private _toastyService: ToastyService){
+        this._toastyConfig.theme = 'material';
+    }
     loginUser(userData: object) {
         this._userservice.logIn(userData.password, userData.username)
             .subscribe(
@@ -40,12 +44,19 @@ export class LoginComponent implements OnInit{
             
                     this.messages.push(`expiration: ${jwtHelper.getTokenExpirationDate(token)}`);
                     this.token_expired = `is expired: ${jwtHelper.isTokenExpired(token)}`;
-                    // this._router.navigate(['/bucketlists']);
-                        window.location.href = '/bucketlists';
-         },
+                    window.location.href = '/bucketlists';
+                    },
                 (error) => {
                     let errors = error.errors;
                     console.log("Errors: ", error);
+                    let toastOptions: ToastOptions = {
+                        title: "",
+                        msg: errors,
+                        showClose: true,
+                        timeout: 5000,
+
+                    };
+                    this._toastyService.error(toastOptions);
                     this.errorMessage = `Login failed: ${errors}`;
                 }
             );
