@@ -14,6 +14,8 @@ import { AuthModule } from "./auth/auth.module";
 import { NotFoundComponent } from "./error-pages/not-found.component";
 import { SharedModule } from "./shared/shared.module";
 import { MaterialModule } from "@angular/material";
+import { ToastService } from "./shared/toast/toast.sevice";
+import {ToastyModule} from "ng2-toasty";
 
 @NgModule({
     imports:      [
@@ -22,6 +24,7 @@ import { MaterialModule } from "@angular/material";
         AuthModule,
         BrowserModule,
         SharedModule,
+        ToastyModule.forRoot(),
         MaterialModule.forRoot(),
         RouterModule.forRoot([
             { path: '', component: HomeComponent },
@@ -33,7 +36,7 @@ import { MaterialModule } from "@angular/material";
     providers: [
         provideAuth({
           headerPrefix: 'JWT'
-        }), AuthGuard],
+        }), AuthGuard, ToastService],
     bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

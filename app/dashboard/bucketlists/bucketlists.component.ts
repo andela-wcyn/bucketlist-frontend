@@ -1,10 +1,9 @@
 import { IBucketlist } from './bucketlist';
 import { BucketlistService } from './bucketlists.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 // import { CreateBucketlistComponent } from "./create-bucketlist.component";
-import { MdDialog } from "@angular/material";
-import {ConfirmDialogService} from "../../shared/dialog/dialog.service";
-
+import {ConfirmDialogService} from "../../shared/dialog/confirm-dialog.service";
+import {ToastOptions, ToastyConfig, ToastyService} from "ng2-toasty";
 declare let $:any;
 
 @Component({
@@ -16,25 +15,19 @@ declare let $:any;
 export class BucketlistsComponent implements OnInit {
     bucketlists: IBucketlist[];
     errorMessage: string;
-    successMessage: object;
+    successMessage: string;
     result: any;
+    private position: string;
     // Dependency Injection
     constructor(private _bucketlistService: BucketlistService,
-                private _dialogService: ConfirmDialogService) {
-
+                private _dialogService: ConfirmDialogService,
+                private _toastyService: ToastyService, private _toastyConfig: ToastyConfig) {
+        // this._toastyService.position$.subscribe(pos => this.position = pos);
+        this._toastyConfig.theme = 'material';
     }
 
     ngOnInit(): void {
 
-        // location.reload();
-        // $('[data-toggle="checkbox"]').each(function () {
-        //     if($(this).data('toggle') == 'switch') return;
-        //
-        //     var $checkbox = $(this);
-        //     $checkbox.checkbox();
-        // });
-        // initDemo();
-        // Retrieve all the bucketlists
         this._bucketlistService.getBucketlists()
             .subscribe(
                 bucketlists => this.bucketlists = bucketlists,
@@ -55,9 +48,19 @@ export class BucketlistsComponent implements OnInit {
                 if (result) {
                     this._bucketlistService.deleteBucketlist(id)
                         .subscribe(
-                            (message: object) => {
-                                this.successMessage = message
-                                console.log("Success delete: ", message);
+                            (message) => {
+                                // console.log("Success delete: ", message);
+                                let toastOptions: ToastOptions = {
+                                    title: "",
+                                    msg: message,
+                                    showClose: true,
+                                    timeout: 5000,
+                                    position: 'bottom-right'
+
+                                };
+                                // Add see all possible types in one shot
+                                this._toastyService.success(toastOptions);
+                                // this._toastyService.default("Successfully Deleted!!");
                             },
                             error => this.errorMessage = <any>error);
                 }
