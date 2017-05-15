@@ -11,3 +11,6 @@ An Angular 2 Frontend for the Flask Bucketlist API backend
 - Type: `npm start`
     This launches the TypeScript compiler (tsc) to compile the application and wait for changes. 
     It also starts the lite-server and launches the browser to run the application.
+
+To ensure a good user experience while loading the application, ensure that internet connection is available in order
+to download the various resources that are pulled from the web.
