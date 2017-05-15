@@ -9,33 +9,48 @@
                     <p class="category">Join Buzz Buckets</p>
                 </div>
                 <div class="card-content">
-                    <form [formGroup]="userForm" novalidate (ngSubmit)="create(userForm.value, userForm.valid)">
+                    <form [formGroup]="userForm" novalidate (ngSubmit)="registerUser(userForm.value, userForm.valid)">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group form-black label-floating is-empty">
                                     <label class="control-label">Username</label>
                                     <input type="text" class="form-control" formControlName="username">
-                                    <small [hidden]="userForm.controls.username.valid || (userForm.controls.username.pristine && !submitted)">
+                                    <small class="form-field-error" [hidden]="userForm.controls.username.valid || (userForm.controls.username.pristine && !submitted)">
                                         Username is required.
                                     </small>
+                                    <div *ngIf="field_errors && field_errors.username" [hidden]="!field_errors.username">
+                                        <small class="form-field-error" *ngFor="let error of field_errors.username">
+                                            {{ error }}
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group form-black label-floating is-empty">
                                     <label class="control-label">Email address</label>
                                     <input type="email" class="form-control" formControlName="email" required>
-                                    <small [hidden]="userForm.controls.email.valid || (userForm.controls.email.pristine && !submitted)">
+                                    <small class="form-field-error" [hidden]="userForm.controls.email.valid || (userForm.controls.email.pristine && !submitted)">
                                         Email is required.
                                     </small>
+                                    <div *ngIf="field_errors && field_errors.email" [hidden]="!field_errors.email">
+                                        <small class="form-field-error" *ngFor="let error of field_errors.email">
+                                            {{ error }}
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group form-black label-floating is-empty">
                                     <label class="control-label">Password</label>
-                                    <input type="password" class="form-control" formControlName="email" required>
-                                    <small [hidden]="userForm.controls.password.valid || (userForm.controls.password.pristine && !submitted)">
+                                    <input type="password" class="form-control" formControlName="password" required>
+                                    <small class="form-field-error" [hidden]="userForm.controls.password.valid || (userForm.controls.password.pristine && !submitted)">
                                         Password is required.
                                     </small>
+                                    <div *ngIf="field_errors && field_errors.password" [hidden]="!field_errors.password">
+                                        <small class="form-field-error" *ngFor="let error of field_errors.password">
+                                            {{ error }}
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -44,6 +59,15 @@
 
                         <button type="submit" class="btn btn-danger pull-right">Register</button>
                         <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <h4>Already have an account?</h4>
+                                    <p><a [routerLink]="['/login']">Login</a> to your account</p>
+
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -5514,3 +5514,7 @@ footer .btn {
  .form-group label.control-label {
      position: relative !important;
  }
+
+ .form-field-error {
+   color: #f44336;
+ }

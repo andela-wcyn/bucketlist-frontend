@@ -15,9 +15,14 @@
                                 <div class="form-group form-black label-floating is-empty">
                                     <label class="control-label">Username</label>
                                     <input type="text" class="form-control" formControlName="username">
-                                    <small [hidden]="userForm.controls.username.valid || (userForm.controls.username.pristine && !submitted)">
+                                    <small class="form-field-error" [hidden]="userForm.controls.username.valid || (userForm.controls.username.pristine && !submitted)">
                                         Username is required.
                                     </small>
+                                    <div *ngIf="field_errors && field_errors.username" [hidden]="!field_errors.username">
+                                        <small class="form-field-error" *ngFor="let error of field_errors.username">
+                                            {{ error }}
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -27,26 +32,21 @@
                                 <div class="form-group form-black label-floating is-empty">
                                     <label class="control-label">Password</label>
                                     <input type="password" class="form-control" formControlName="password" required>
-                                    <small [hidden]="userForm.controls.password.valid || (userForm.controls.password.pristine && !submitted)">
+                                    <small class="form-field-error" [hidden]="userForm.controls.password.valid || (userForm.controls.password.pristine && !submitted)">
                                         Password is required.
-                                    </small></div>
+                                    </small>
+                                    <div *ngIf="field_errors && field_errors.password" [hidden]="!field_errors.password">
+                                        <small class="form-field-error" *ngFor="let error of field_errors.password">
+                                            {{ error }}
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <button type="submit" class="btn btn-danger pull-right">Log In</button>
                         <div class="clearfix"></div>
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <h4>Don't have an account?</h4>
-                                    <p><a>Register</a> for one</p>
-    
-                                </div>
-                            </div>
-                        </div>
-
-                        
                     </form>
                 </div>
             </div>

@@ -25,9 +25,6 @@ declare let $:any;
 export class BucketlistsComponent implements OnInit {
     bucketlists: IBucketlist[];
     errorMessage: string;
-    successMessage: string;
-    result: any;
-    private position: string;
     // Dependency Injection
     constructor(private _bucketlistService: BucketlistService,
                 private _dialogService: ConfirmDialogService,
@@ -64,16 +61,6 @@ export class BucketlistsComponent implements OnInit {
 
     }
 
-
-    queryBucketlists(query) {
-        this._bucketlistService.getBucketlists(query)
-            .subscribe(
-                bucketlists => {
-                    this.bucketlists = bucketlists
-                },
-                error => this.errorMessage = <any>error);
-    }
-
     createBucketlist() {
         return this.modal.open(CreateBucketlistComponent,
             overlayConfigFactory({}, BSModalContext));
@@ -102,7 +89,6 @@ export class BucketlistsComponent implements OnInit {
                                     timeout: 5000,
 
                                 };
-                                // Add see all possible types in one shot
                                 this._toastyService.success(toastOptions);
                                 let index = this._dos.deepIndexOf(this.bucketlists, "id", id)
                                 this.bucketlists.splice(index, 1);
