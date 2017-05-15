@@ -16,9 +16,10 @@ import {EditBucketlistItemComponent} from "./bucketlist-items/edit-bucketlist-it
 import {EditBucketlistComponent} from "./bucketlists/edit-bucketlist.component";
 
 export const DASHBOARD_MODULE_ROUTES: Route[] = [ 
-    { path: 'bucketlists', component: BucketlistsComponent},
+    { path: 'bucketlists', component: BucketlistsComponent,
+        canActivate: [AuthGuard]},
     { path: 'bucketlists/:id', component: BucketlistItemsComponent,
-        canActivate: [BucketlistItemGuard]}
+        canActivate: [BucketlistItemGuard, AuthGuard]}
 ]
 
 export const MODULE_COMPONENTS = [

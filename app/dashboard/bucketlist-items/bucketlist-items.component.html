@@ -40,7 +40,7 @@
                                             <td class="col-sm-1">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" (click)="setItemDone($event)" name="optionsCheckboxes" [checked]="item.done">
+                                                        <input type="checkbox" (click)="setItemDone($event, bucketlist.id, item.id, item)" name="optionsCheckboxes" [checked]="item.done">
                                                     </label>
                                                 </div>
                                             </td>

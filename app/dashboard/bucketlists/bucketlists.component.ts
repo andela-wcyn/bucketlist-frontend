@@ -73,7 +73,7 @@ export class BucketlistsComponent implements OnInit {
 
     deleteBucketlist(id: number) {
         this.modal.open(ConfirmDialogComponent,
-            overlayConfigFactory({ num1: 2, num2: 3 }, BSModalContext));
+            overlayConfigFactory({}, BSModalContext));
         this._dialogService.confirm
             .subscribe((result) => {
                 if (result) {

@@ -46,13 +46,13 @@ export class BucketlistItemsComponent implements OnInit{
         this._bucketlistItemsService.newBucketlistItem.subscribe(
             (data) => {
                 this.bucketlist.items.push(data);
-            })
+            });
 
         this._bucketlistItemsService.editedBucketlistItem.subscribe(
             (data) => {
                 let index = this._dos.deepIndexOf(this.bucketlist.items, "id", data.id)
                 this.bucketlist.items.splice(index, 1, data);
-            })
+            });
     }
 
     createBucketlistItem() {
@@ -93,7 +93,36 @@ export class BucketlistItemsComponent implements OnInit{
             });
     }
 
-    setItemDone(event: any){
+    setItemDone(event: any, bucketlist_id: number, item_id: number, bucketlistItem: object){
         console.log("Checked button: ", event.target.checked);
+        let bucketlistItemData = {
+            "done": event.target.checked,
+            "description": bucketlistItem["description"]
+        };
+        this._bucketlistItemsService.editBucketlistItem(bucketlistItemData,
+            bucketlist_id, item_id)
+            .subscribe(
+                (data) => {
+                    let done = data.done ? "Done" : "Undone"
+                    let toastOptions: ToastOptions = {
+                        title: "",
+                        msg: "Bucketlist Item Marked as " + done,
+                        showClose: true,
+
+                    };
+                    this._toastyService.success(toastOptions);
+                    // this.bucketlist.items.splice(index, 1);
+
+                },
+                error => {
+                    let toastOptions: ToastOptions = {
+                        title: "",
+                        msg: error,
+                        showClose: true,
+
+                    };
+                    this._toastyService.error(toastOptions);
+                });
+
     }
 }
