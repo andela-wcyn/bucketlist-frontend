@@ -45,7 +45,7 @@ export class BucketlistsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.getBucketlists(this.currentPage);
+        this.getBucketlists(this.currentPage, this.query, this.limit);
         this._bucketlistService.newBucketlist.subscribe(
             (data) => {
                 this.bucketlists.push(data);
@@ -58,14 +58,12 @@ export class BucketlistsComponent implements OnInit {
         this._bucketlistService.queriedBucketlists.subscribe(
             (data) => {
                 this.bucketlists = data.data[0];
-                this.pages = this.createNumList(0, data.total);
+                this.pages = this.createNumList(1, Math.ceil(data.total / this.limit) + 1);
                 console.log("Pages: ", this.pages);
             });
         this._searchQueryService.query.subscribe(
             (data) => {
-                this.bucketlists = data.data[0];
-                this.pages = this.createNumList(0, data.total);
-                console.log("Pages: ", this.pages);
+                this.query = data;
             });
 
     }
@@ -78,18 +76,41 @@ export class BucketlistsComponent implements OnInit {
         return numList;
     }
 
-    getBucketlists(page) {
-        this._bucketlistService.getBucketlists(this.query, page, this.limit)
+    getBucketlists(page: number, query=this.query, limit=this.limit) {
+        this._bucketlistService.getBucketlists(query, page, limit)
             .subscribe(
                 bucketlists => {
                     this.bucketlists = bucketlists.data[0];
-
+                    this.currentPage = page;
                     this.pages = this.createNumList(1, Math.ceil(bucketlists.total / this.limit) + 1);
                     console.log("Pages get: ", this.pages);
                 },
                 error => this.errorMessage = <any>error);
     }
 
+    getFirstPage(){
+        console.log("Query?", this.query);
+        this.getBucketlists(1, this.query, this.limit);
+    }
+
+    getLastPage(){
+        console.log("Query?", this.query);
+        this.getBucketlists(this.pages[this.pages.length-1], this.query, this.limit);
+    }
+
+    getNextPage(){
+        console.log("Query?", this.query);
+        if (this.currentPage < this.pages[this.pages.length-1]) {
+            this.getBucketlists(this.currentPage + 1, this.query, this.limit);
+        }
+    }
+
+    getPreviousPage(){
+        console.log("Query?", this.query);
+        if (this.currentPage > this.pages[0]) {
+            this.getBucketlists(this.currentPage - 1, this.query, this.limit);
+        }
+    }
     createBucketlist() {
         return this.modal.open(CreateBucketlistComponent,
             overlayConfigFactory({}, BSModalContext));

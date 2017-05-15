@@ -6,7 +6,7 @@ export class SearchQueryService {
     constructor() { }
 
     @Input('queryString')
-    set queryString(value: boolean) {
+    set queryString(value: string) {
         this.query.emit(value);
     }
 }

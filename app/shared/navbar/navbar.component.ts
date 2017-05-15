@@ -6,6 +6,7 @@ import {ROUTES} from "../sidebar/sidebar-routes.config";
 import {NO_SIDEBAR_ROUTES} from "../shared.module";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {BucketlistService} from "../../dashboard/bucketlists/bucketlists.service";
+import {SearchQueryService} from "./search-query.service";
 
 @Component({
     moduleId: module.id,
@@ -20,7 +21,9 @@ export class NavbarComponent implements OnInit{
 
     constructor(location:Location, private _router: Router,
                 private _fb: FormBuilder, private _route: ActivatedRoute,
-                private _bucketlistService: BucketlistService) {
+                private _bucketlistService: BucketlistService,
+                private _searchQueryService: SearchQueryService
+    ) {
         this.location = location;
         this._router.events.subscribe((val: NavigationEnd) => {
             let token = localStorage.getItem('token');
@@ -62,6 +65,7 @@ export class NavbarComponent implements OnInit{
         this._bucketlistService.getBucketlists(queryData.query)
             .subscribe(
                 bucketlists => {
+                    this._searchQueryService.queryString = queryData.query;
                     console.log("Got bucketlists");
                 },
                 error => this.errorMessage = <any>error);
