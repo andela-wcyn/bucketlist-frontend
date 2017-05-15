@@ -8,3 +8,7 @@ export interface IBucketlist {
     itemCount: number;
     items: IBucketlistItem[];
 }
+
+export interface IBucketlistNew {
+    description: string;
+}

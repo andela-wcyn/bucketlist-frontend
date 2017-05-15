@@ -5506,3 +5506,7 @@ footer .btn {
     margin-right: -20px;
   }
 }
+
+ md-dialog-container {
+   max-width: 100vw !important;
+ }

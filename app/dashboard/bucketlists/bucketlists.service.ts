@@ -50,7 +50,7 @@ export class BucketlistService {
             .post(APP_SERVER + 'bucketlists/',
                 JSON.stringify(bucketlist_data),
                 options)
-            .map((response: Response) => response.json().data[0])
+            .map((response: Response) => response.json())
             .do((data: string) => console.log('USer Data: ' + JSON.stringify(data)))
             .catch(BucketlistService.handleError);
     }

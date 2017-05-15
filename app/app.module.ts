@@ -13,10 +13,9 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { AuthModule } from "./auth/auth.module";
 import { NotFoundComponent } from "./error-pages/not-found.component";
 import { SharedModule } from "./shared/shared.module";
-import { MaterialModule } from "@angular/material";
 import { ToastService } from "./shared/toast/toast.sevice";
 import {ToastyModule} from "ng2-toasty";
-import {ModalModule, ModalOverlay} from "angular2-modal";
+import {ModalModule } from "angular2-modal";
 import {BootstrapModalModule, Modal} from 'angular2-modal/plugins/bootstrap';
 
 
@@ -28,7 +27,6 @@ import {BootstrapModalModule, Modal} from 'angular2-modal/plugins/bootstrap';
         BrowserModule,
         SharedModule,
         ToastyModule.forRoot(),
-        MaterialModule.forRoot(),
         ModalModule.forRoot(),
         BootstrapModalModule,
         RouterModule.forRoot([
