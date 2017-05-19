@@ -1,4 +1,4 @@
-import { IBucketlist } from './bucketlist';
+import { IBucketlist, IBucketlistPaginated, IMessage } from './bucketlist';
 import { BucketlistService } from './bucketlists.service';
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
 // import { CreateBucketlistComponent } from "./create-bucketlist.component";
@@ -14,6 +14,7 @@ import {DataObjectsService} from "../data-objects.service";
 import {ConfirmDialogComponent} from "../../shared/dialog/confirm-dialog.component";
 import {EditBucketlistComponent} from "./edit-bucketlist.component";
 import {SearchQueryService} from "../../shared/navbar/search-query.service";
+import {PAGINATION_LIMIT} from "../../shared/shared.module";
 
 declare let $:any;
 
@@ -27,7 +28,6 @@ export class BucketlistsComponent implements OnInit {
     bucketlists: IBucketlist[];
     errorMessage: string;
     pages: number[];
-    limit: number = 6;
     query: string = "";
     currentPage: number = 1;
 
@@ -45,29 +45,31 @@ export class BucketlistsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.getBucketlists(this.currentPage, this.query, this.limit);
+        this.getBucketlists(this.currentPage, this.query, PAGINATION_LIMIT);
         this._bucketlistService.newBucketlist.subscribe(
-            (data) => {
+            (data: IBucketlist) => {
                 this.bucketlists.push(data);
             });
         this._bucketlistService.editedBucketlist.subscribe(
-            (data) => {
+            (data: IBucketlist) => {
                 let index = this._dos.deepIndexOf(this.bucketlists, "id", data.id)
                 this.bucketlists.splice(index, 1, data);
             });
         this._bucketlistService.queriedBucketlists.subscribe(
-            (data) => {
-                this.bucketlists = data.data[0];
-                this.pages = this.createNumList(1, Math.ceil(data.total / this.limit) + 1);
+            (data: IBucketlistPaginated) => {
+
+                this.bucketlists = data.data;
+                this.pages = this.createNumList(1, Math.ceil(data.total / PAGINATION_LIMIT) + 1);
+                console.log("Queried: pages ", this.pages, data)
             });
         this._searchQueryService.query.subscribe(
-            (data) => {
+            (data: string) => {
                 this.query = data;
             });
 
     }
 
-    createNumList(start, end){
+    createNumList(start: number, end: number): number[]{
         let numList: number[] = [];
         for (let i = start; i < end; i++) {
             numList.push(i);
@@ -75,35 +77,35 @@ export class BucketlistsComponent implements OnInit {
         return numList;
     }
 
-    getBucketlists(page: number, query=this.query, limit=this.limit) {
+    getBucketlists(page: number, query=this.query, limit=PAGINATION_LIMIT) {
         this._bucketlistService.getBucketlists(query, page, limit)
             .subscribe(
-                bucketlists => {
-                    this.bucketlists = bucketlists.data[0];
-                    this.currentPage = page;
-                    this.pages = this.createNumList(1, Math.ceil(bucketlists.total / this.limit) + 1);
+                (bucketlists: IBucketlistPaginated) => {
+                    this.bucketlists = bucketlists.data;
+                    this.currentPage = bucketlists.current_page;
+                    this.pages = this.createNumList(1, Math.ceil(bucketlists.total / PAGINATION_LIMIT) + 1);
                     console.log("Pages get: ", this.pages);
                 },
                 error => this.errorMessage = <any>error);
     }
 
     getFirstPage(){
-        this.getBucketlists(1, this.query, this.limit);
+        this.getBucketlists(1, this.query, PAGINATION_LIMIT);
     }
 
     getLastPage(){
-        this.getBucketlists(this.pages[this.pages.length-1], this.query, this.limit);
+        this.getBucketlists(this.pages[this.pages.length-1], this.query, PAGINATION_LIMIT);
     }
 
     getNextPage(){
         if (this.currentPage < this.pages[this.pages.length-1]) {
-            this.getBucketlists(this.currentPage + 1, this.query, this.limit);
+            this.getBucketlists(this.currentPage + 1, this.query, PAGINATION_LIMIT);
         }
     }
 
     getPreviousPage(){
         if (this.currentPage > this.pages[0]) {
-            this.getBucketlists(this.currentPage - 1, this.query, this.limit);
+            this.getBucketlists(this.currentPage - 1, this.query, PAGINATION_LIMIT);
         }
     }
     createBucketlist() {
@@ -112,7 +114,7 @@ export class BucketlistsComponent implements OnInit {
     }
 
     editBucketlist(bucketlist_id: number, bucketlistItem: object) {
-        bucketlistItem["bucketlist_id"] = bucketlist_id;
+        bucketlistItem["id"] = bucketlist_id;
         this.modal.open(EditBucketlistComponent,
             overlayConfigFactory(bucketlistItem, BSModalContext));
     }
@@ -122,14 +124,14 @@ export class BucketlistsComponent implements OnInit {
         this.modal.open(ConfirmDialogComponent,
             overlayConfigFactory({}, BSModalContext));
         this._dialogService.confirm
-            .subscribe((result) => {
+            .subscribe((result: IMessage) => {
                 if (result) {
                     this._bucketlistService.deleteBucketlist(id)
                         .subscribe(
-                            (message) => {
+                            (data) => {
                                 let toastOptions: ToastOptions = {
                                     title: "",
-                                    msg: message,
+                                    msg: data.message,
                                     showClose: true,
                                     timeout: 5000,
 

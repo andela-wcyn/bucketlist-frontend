@@ -1,7 +1,8 @@
+import { IBucketlistItem } from './bucketlist-item';
 import { ActivatedRoute } from '@angular/router';
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {BucketlistItemsService} from "./bucketlist-items.service";
-import {IBucketlist} from "../bucketlists/bucketlist";
+import { IBucketlist, IMessage } from '../bucketlists/bucketlist';
 import {CreateBucketlistItemComponent} from "./create-bucketlist-item.component";
 import {Modal, overlayConfigFactory} from "angular2-modal";
 import {BSModalContext} from "angular2-modal/plugins/bootstrap";
@@ -44,17 +45,17 @@ export class BucketlistItemsComponent implements OnInit{
                 this.bucketlist = res;
             }, error => this.errorMessage = <any>error);
         this._bucketlistItemsService.newBucketlistItem.subscribe(
-            (data) => {
+            (data: IBucketlistItem) => {
                 this.bucketlist.items.push(data);
             });
 
         this._bucketlistItemsService.editedBucketlistItem.subscribe(
-            (data) => {
+            (data: IBucketlistItem) => {
                 let index = this._dos.deepIndexOf(this.bucketlist.items, "id", data.id)
                 this.bucketlist.items.splice(index, 1, data);
             });
         this._bucketlistItemsService.queriedBucketlistItems.subscribe(
-            (data) => {
+            (data: IBucketlistItem[]) => {
                 this.bucketlist.items = data;
             });
     }
@@ -66,7 +67,7 @@ export class BucketlistItemsComponent implements OnInit{
 
     editBucketlistItem(bucketlist_id: number, item_id: number, bucketlistItem: object) {
         bucketlistItem["bucketlist_id"] = bucketlist_id;
-        bucketlistItem["item_id"] = item_id;
+        bucketlistItem["id"] = item_id;
         this.modal.open(EditBucketlistItemComponent,
             overlayConfigFactory(bucketlistItem, BSModalContext));
     }
@@ -75,14 +76,14 @@ export class BucketlistItemsComponent implements OnInit{
         this.modal.open(ConfirmDialogComponent,
             overlayConfigFactory({ }, BSModalContext));
         this._confirmDialogService.confirm
-            .subscribe((result) => {
+            .subscribe((result: any) => {
                 if (result) {
                     this._bucketlistItemsService.deleteBucketlistItem(id, item_id)
                         .subscribe(
-                            (message) => {
+                            (data: IMessage) => {
                                 let toastOptions: ToastOptions = {
                                     title: "",
-                                    msg: message,
+                                    msg: data.message,
                                     showClose: true,
                                     timeout: 5000,
 
@@ -97,15 +98,15 @@ export class BucketlistItemsComponent implements OnInit{
             });
     }
 
-    setItemDone(event: any, bucketlist_id: number, item_id: number, bucketlistItem: object){
+    setItemDone(event: any, bucketlist_id: number, item_id: number, bucketlistItem: IBucketlistItem){
         let bucketlistItemData = {
             "done": event.target.checked,
-            "description": bucketlistItem["description"]
+            "description": bucketlistItem.description
         };
         this._bucketlistItemsService.editBucketlistItem(bucketlistItemData,
             bucketlist_id, item_id)
             .subscribe(
-                (data) => {
+                (data: IBucketlistItem) => {
                     let done = data.done ? "Done" : "Undone"
                     let toastOptions: ToastOptions = {
                         title: "",
@@ -117,7 +118,7 @@ export class BucketlistItemsComponent implements OnInit{
                     // this.bucketlist.items.splice(index, 1);
 
                 },
-                error => {
+                (error: string) => {
                     let toastOptions: ToastOptions = {
                         title: "",
                         msg: error,

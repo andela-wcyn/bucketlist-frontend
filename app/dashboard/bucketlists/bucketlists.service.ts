@@ -6,8 +6,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 
-import { IBucketlist } from './bucketlist';
-import { APP_SERVER } from "../../shared/shared.module";
+import { IBucketlist, IBucketlistPaginated, IMessage } from './bucketlist';
+import {APP_SERVER, PAGINATION_LIMIT} from "../../shared/shared.module";
 import { AuthHttp } from "angular2-jwt";
 
 
@@ -19,7 +19,7 @@ export class BucketlistService {
 
     constructor(public authHttp: AuthHttp) {}
 
-    getBucketlists(query="", page=1, limit=20): Observable<IBucketlist[]> {
+    getBucketlists(query="", page=1, limit=PAGINATION_LIMIT): Observable<IBucketlistPaginated> {
         let url = APP_SERVER + 'bucketlists/';
         let options: RequestOptions = new RequestOptions({
             headers: new Headers({ 'Content-Type': 'application/json'}),
@@ -37,15 +37,15 @@ export class BucketlistService {
             .catch(BucketlistService.handleError);
     }
 
-    deleteBucketlist(id: number): Observable<object> {
+    deleteBucketlist(id: number): Observable<IMessage> {
         let options: RequestOptions = new RequestOptions({
             headers: new Headers({ 'Content-Type': 'application/json' })
         });
 
         return this.authHttp
             .delete(APP_SERVER + 'bucketlists/' + id, options)
-            .map((response: Response) => response.json().message)
-            .do((data: any) => console.log('Deleted bucketlist'))
+            .map((response: Response) => response.json())
+            .do((data: IMessage) => console.log('Deleted bucketlist'))
             .catch(BucketlistService.handleError);
     }
 

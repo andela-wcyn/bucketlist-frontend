@@ -1,3 +1,4 @@
+import { IBucketlistItem, IBucketlistItemNew } from './bucketlist-item';
 import { Observable } from 'rxjs/Observable';
 import { Response, Headers, RequestOptions} from '@angular/http';
 import {EventEmitter, Injectable, Output} from '@angular/core';
@@ -12,9 +13,10 @@ import { IBucketlist } from "../bucketlists/bucketlist";
 
 @Injectable()
 export class BucketlistItemsService {
-    @Output() newBucketlistItem: EventEmitter<any> = new EventEmitter();
-    @Output() editedBucketlistItem: EventEmitter<any> = new EventEmitter();
-    @Output() queriedBucketlistItems: EventEmitter<any> = new EventEmitter();
+    @Output() newBucketlistItem: EventEmitter<IBucketlistItemNew> = new EventEmitter<IBucketlistItemNew>();
+    @Output() editedBucketlistItem: EventEmitter<IBucketlistItem> = new EventEmitter<IBucketlistItem>();
+    @Output() queriedBucketlistItems: EventEmitter<IBucketlistItem[]> = new EventEmitter<IBucketlistItem[]>();
+
     constructor(public authHttp: AuthHttp) {}
 
     getBucketlistItems(id: number, query?: string): Observable<IBucketlist> {
@@ -31,7 +33,7 @@ export class BucketlistItemsService {
         return this.authHttp
             .get(url, options)
             .map((response: Response) => response.json().data.bucketlist)
-            .do((data: string) => {
+            .do((data: IBucketlistItem[]) => {
                 if (query) {
                     this.queriedBucketlistItems.emit(data);
                 }
@@ -48,14 +50,14 @@ export class BucketlistItemsService {
                 JSON.stringify(bucketlist_item_data),
                 options)
             .map((response: Response) => response.json())
-            .do((data: string) => {
+            .do((data: IBucketlistItemNew) => {
                 this.newBucketlistItem.emit(data);
             })
             .catch(BucketlistItemsService.handleError);
     }
 
     editBucketlistItem(bucketlist_item_data: object, bucketlist_id: number, item_id: number):
-        Observable<IBucketlist> {
+        Observable<IBucketlistItem> {
         let options: RequestOptions = new RequestOptions({
             headers: new Headers({ 'Content-Type': 'application/json' })
         });
@@ -65,7 +67,7 @@ export class BucketlistItemsService {
                 JSON.stringify(bucketlist_item_data),
                 options)
             .map((response: Response) => response.json())
-            .do((data: string) => {
+            .do((data: IBucketlistItem) => {
                 this.editedBucketlistItem.emit(data);
             })
             .catch(BucketlistItemsService.handleError);

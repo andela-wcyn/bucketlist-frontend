@@ -1,10 +1,14 @@
-export interface User {
-    username: number;
+export interface IUser {
+    username: string;
     email: string;
-    password: any;
+    password: string;
 }
 
-export interface UserLogin {
-    username: number;
-    password: any;
+export interface IUserLogin {
+    username: string;
+    password: string;
+}
+
+export interface IUserToken {
+    token: string;
 }

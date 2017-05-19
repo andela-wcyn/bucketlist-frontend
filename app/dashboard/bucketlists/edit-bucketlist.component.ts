@@ -6,9 +6,12 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ToastOptions, ToastyService} from "ng2-toasty";
 import {ActivatedRoute} from "@angular/router";
 import {BucketlistService} from "./bucketlists.service";
-import {IBucketlistNew} from "./bucketlist";
+import { IBucketlist, IBucketlistNew } from './bucketlist';
 
-export class CustomModalContext extends BSModalContext {}
+export class CustomModalContext extends BSModalContext {
+    description: string;
+    id: number;
+}
 
 @Component({
     selector: 'modal-content',
@@ -43,19 +46,19 @@ export class EditBucketlistComponent implements OnInit, CloseGuard, ModalCompone
         this.dialog.close();
     }
 
-    edit(model: IBucketlistNew, isValid: boolean) {
+    edit(model: IBucketlist, isValid: boolean) {
 
         this.submitted = true;
         console.log(model, isValid);
         if (isValid){
-            model["bucketlist_id"] = this.context.bucketlist_id;
+            model["id"] = this.context.id;
             this.editBucketlistItem(model);
         }
     }
 
-    editBucketlistItem(bucketlistData: object) {
+    editBucketlistItem(bucketlistData: IBucketlist) {
         this._bucketlistService.editBucketlist(bucketlistData,
-            bucketlistData.bucketlist_id)
+            bucketlistData.id)
             .subscribe(
                 (data) => {
                     this.dialog.close();
@@ -84,5 +87,6 @@ export class EditBucketlistComponent implements OnInit, CloseGuard, ModalCompone
     }
 
     beforeClose(): boolean {
+        return true;
     }
 }

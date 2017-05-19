@@ -2,7 +2,7 @@ export interface IBucketlistItem {
     id: number;
     description: string;
     detailsLink: string;
-    bucketlistId: number;
+    bucketlist_id: number;
     done: boolean;
 }
 

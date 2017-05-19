@@ -1,3 +1,4 @@
+import { IUser } from '../user';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { JwtHelper } from 'angular2-jwt';
 import {UserService} from "../user.service";
@@ -37,7 +38,7 @@ export class RegisterComponent implements OnInit{
         this._toastyConfig.theme = 'material';
     }
 
-    registerUser(userData: object) {
+    registerUser(userData: IUser) {
         this._userservice.registerUser(userData.password, userData.username, userData.email)
             .subscribe(
                     (data) => {

@@ -1,3 +1,5 @@
+import { ToastOptions, ToastyConfig, ToastyService } from 'ng2-toasty';
+import { IUser, IUserLogin, IUserToken } from './user';
 import { Observable } from 'rxjs/Observable';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -14,10 +16,14 @@ import { APP_SERVER } from "../shared/shared.module";
 @Injectable()
 export class UserService {
 
-    constructor(private _http: Http) {}
+    constructor(private _http: Http, 
+                private _toastyConfig: ToastyConfig,
+                private _toastyService: ToastyService){
+        this._toastyConfig.theme = 'material';
+    }
     
     // send username/email and password and get the token
-    logIn( password: string, username: string): Observable<any> {
+    logIn( password: string, username: string): Observable<IUserToken> {
         let options: RequestOptions = new RequestOptions({
         headers: new Headers({ 'Content-Type': 'application/json' })
         });
@@ -36,7 +42,7 @@ export class UserService {
     }
 
     // send user details and create user
-    registerUser(password: string, username?: string, email?: string): Observable<any> {
+    registerUser(password: string, username?: string, email?: string): Observable<IUser> {
         let options: RequestOptions = new RequestOptions({
         headers: new Headers({ 'Content-Type': 'application/json' })
         });
@@ -66,7 +72,18 @@ export class UserService {
 
 
     private handleError (error: Response) {
-        console.log(error);
+        console.log("Error: ", error);
+        let error_message = "Woops! Something went wrong. Please try again Later";
+        console.log("Error again:1 ");
+        let toastOptions: ToastOptions = {
+            title: "Server Error",
+            msg: error_message,
+            showClose: true,
+            timeout: 5000,
+        };
+        console.log("Error again2: ");
+        this._toastyService.error(toastOptions);
+        console.log("Error again:3 ");
         return Observable.throw(error.json() || "Server Error")
     }
 }

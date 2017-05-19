@@ -1,3 +1,4 @@
+import { IQuery } from './query';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import {Location} from '@angular/common';
@@ -18,6 +19,7 @@ export class NavbarComponent implements OnInit{
     location: Location;
     user: any = {"username": "(Guest)"};
     searchForm: FormGroup;
+    errorMessage: string;
 
     constructor(location:Location, private _router: Router,
                 private _fb: FormBuilder, private _route: ActivatedRoute,
@@ -56,7 +58,8 @@ export class NavbarComponent implements OnInit{
         });
     }
 
-    queryObjects(queryData: object){
+    queryObjects(queryData: IQuery){
+        console.log("Queried froom nav: ");
         let path = this.location.path();
         if(path === '/bucketlists'){
 

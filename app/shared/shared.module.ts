@@ -14,7 +14,7 @@ import { SearchQueryService } from "./navbar/search-query.service";
 
 export const APP_SERVER = 'http://localhost:5000/api/v1/';
 export const NO_SIDEBAR_ROUTES: string[] = ["", "/login", "/register"] ;
-
+export const PAGINATION_LIMIT: number = 6;
 @NgModule({
     imports: [
         RouterModule,

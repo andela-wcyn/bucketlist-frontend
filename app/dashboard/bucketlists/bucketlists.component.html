@@ -4,7 +4,7 @@
                 <div class="col-xs-3">
                     <button class="btn btn-success" (click)="createBucketlist()"> Create Bucketlist </button>
                 </div>
-                <div class="col-xs-9">
+                <div class="col-xs-9" *ngIf="pages && pages.length">
                         <div class="nav-tabs-navigation">
                             <div class="nav-tabs-wrapper">
                                 <span class="nav-tabs-title"></span>
@@ -72,7 +72,11 @@
                 
             </div>
             <div class="row" *ngIf='bucketlists && !bucketlists.length'>
-                You have no bucketlists yet
+                <div class="container-fluid">
+                    <div>
+                        You have no bucketlists yet
+                    </div>
+                </div>
             </div>
 
         </div>

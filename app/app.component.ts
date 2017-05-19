@@ -16,10 +16,7 @@ declare let $:any;
 
 export class AppComponent implements OnInit{
     location: Location;
-    private messages: Array<string> = [];
     private show_sidebar: boolean = false;
-    errorMessage: any;
-    token_expired: any;
     user: any;
     
     constructor(location:Location, public _router: Router) {

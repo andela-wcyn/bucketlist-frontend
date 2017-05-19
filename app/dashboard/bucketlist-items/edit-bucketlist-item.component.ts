@@ -2,13 +2,17 @@ import {Component, OnInit } from '@angular/core';
 
 import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
-import { IBucketlistItemNew } from "./bucketlist-item";
+import { IBucketlistItem, IBucketlistItemNew } from './bucketlist-item';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ToastOptions, ToastyService} from "ng2-toasty";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BucketlistItemsService} from "./bucketlist-items.service";
 
-export class CustomModalContext extends BSModalContext {}
+export class CustomModalContext extends BSModalContext {
+    description: string;
+    bucketlist_id: number;
+    id: number;
+}
 
 @Component({
     selector: 'modal-content',
@@ -17,7 +21,6 @@ export class CustomModalContext extends BSModalContext {}
 })
 export class EditBucketlistItemComponent implements OnInit, CloseGuard, ModalComponent<CustomModalContext> {
     bucketlistItemForm: FormGroup;
-
 
     constructor(public dialog: DialogRef<CustomModalContext>,
                 private _bucketlistItemService: BucketlistItemsService,
@@ -44,20 +47,20 @@ export class EditBucketlistItemComponent implements OnInit, CloseGuard, ModalCom
         this.dialog.close();
     }
 
-    edit(model: IBucketlistItemNew, isValid: boolean) {
+    edit(model: IBucketlistItem, isValid: boolean) {
 
         this.submitted = true;
         console.log(model, isValid);
         if (isValid){
             model["bucketlist_id"] = this.context.bucketlist_id;
-            model["item_id"] = this.context.item_id;
+            model["id"] = this.context.id;
             this.editBucketlistItem(model);
         }
     }
 
-    editBucketlistItem(bucketlistItemData: object) {
+    editBucketlistItem(bucketlistItemData: IBucketlistItem) {
         this._bucketlistItemService.editBucketlistItem(bucketlistItemData,
-            bucketlistItemData.bucketlist_id, bucketlistItemData.item_id)
+            bucketlistItemData.bucketlist_id, bucketlistItemData.id)
             .subscribe(
                 (data) => {
                     this.dialog.close();

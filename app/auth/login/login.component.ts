@@ -1,3 +1,4 @@
+import { IUserLogin } from '../user';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { JwtHelper } from 'angular2-jwt';
 import {UserService} from "../user.service";
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit{
                 private _toastyService: ToastyService){
         this._toastyConfig.theme = 'material';
     }
-    loginUser(userData: object) {
+    loginUser(userData: IUserLogin) {
         this._userservice.logIn(userData.password, userData.username)
             .subscribe(
                     (data) => {
