@@ -19,7 +19,7 @@ export interface IMessage {
 
 
 export interface IBucketlistPaginated {
-    data: IBucketlist[];
+    data: [IBucketlist[]];
     current_page: number;
     has_next: number;
     has_previous: boolean;

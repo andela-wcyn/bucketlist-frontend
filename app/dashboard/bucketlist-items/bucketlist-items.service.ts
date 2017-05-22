@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 
 import { APP_SERVER } from "../../shared/shared.module";
 import { AuthHttp } from "angular2-jwt";
-import { IBucketlist } from "../bucketlists/bucketlist";
+import { IBucketlist, IMessage } from '../bucketlists/bucketlist';
 
 @Injectable()
 export class BucketlistItemsService {
@@ -73,14 +73,14 @@ export class BucketlistItemsService {
             .catch(BucketlistItemsService.handleError);
     }
 
-    deleteBucketlistItem(id: number, item_id: number): Observable<object> {
+    deleteBucketlistItem(id: number, item_id: number): Observable<IMessage> {
         let options: RequestOptions = new RequestOptions({
             headers: new Headers({ 'Content-Type': 'application/json' })
         });
 
         return this.authHttp
             .delete(APP_SERVER + 'bucketlists/' + id + '/' + item_id, options)
-            .map((response: Response) => response.json().message)
+            .map((response: Response) => response.json())
             .do((data: any) => console.log('Delete Message: '))
             .catch(BucketlistItemsService.handleError);
     }

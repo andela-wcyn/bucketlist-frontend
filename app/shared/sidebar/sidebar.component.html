@@ -8,7 +8,7 @@
 </div>
 <div class="sidebar-wrapper">
     <div class="nav-container">
-        <ul class="nav">
+        <ul class="nav"  *ngIf="loggedIn()">
             <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
                 <a  [routerLink]="[menuItem.path]">
                     <i class="material-icons">{{menuItem.icon}}</i>

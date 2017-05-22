@@ -36,6 +36,8 @@ export class RegisterComponent implements OnInit{
                 private _toastyConfig: ToastyConfig,
                 private _toastyService: ToastyService){
         this._toastyConfig.theme = 'material';
+        this._toastyConfig.showClose = true;
+        this._toastyConfig.timeout = 5000;        
     }
 
     registerUser(userData: IUser) {
@@ -45,10 +47,7 @@ export class RegisterComponent implements OnInit{
                     // Welcome the user
                         let toastOptions: ToastOptions = {
                             title: "Welcome " + data.username,
-                            msg: "You have been successfully registered",
-                            showClose: true,
-                            timeout: 5000,
-
+                            msg: "You have been successfully registered"
                         };
                         this._toastyService.success(toastOptions);
                         this._router.navigate(['login']);
@@ -60,15 +59,19 @@ export class RegisterComponent implements OnInit{
                         let toastOptions: ToastOptions = {
                             title: "",
                             msg: errors,
-                            showClose: true,
-                            timeout: 5000,
-
                         };
                         this._toastyService.error(toastOptions);
                     }
-                    if (error.field_errors) {
+                    else if (error.field_errors) {
                         this.field_errors = error.field_errors;
-                        console.log("Field errors: ", this.field_errors);
+                    }
+                    else {
+                        let error_message = "Woops! Something went wrong"
+                        let toastOptions: ToastOptions = {
+                            title: "Server Error",
+                            msg: error_message
+                        };
+                        this._toastyService.error(toastOptions);
                     }
                 }
             );

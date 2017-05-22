@@ -58,7 +58,7 @@ export class BucketlistsComponent implements OnInit {
         this._bucketlistService.queriedBucketlists.subscribe(
             (data: IBucketlistPaginated) => {
 
-                this.bucketlists = data.data;
+                this.bucketlists = data.data[0];
                 this.pages = this.createNumList(1, Math.ceil(data.total / PAGINATION_LIMIT) + 1);
                 console.log("Queried: pages ", this.pages, data)
             });
@@ -81,7 +81,7 @@ export class BucketlistsComponent implements OnInit {
         this._bucketlistService.getBucketlists(query, page, limit)
             .subscribe(
                 (bucketlists: IBucketlistPaginated) => {
-                    this.bucketlists = bucketlists.data;
+                    this.bucketlists = bucketlists.data[0];
                     this.currentPage = bucketlists.current_page;
                     this.pages = this.createNumList(1, Math.ceil(bucketlists.total / PAGINATION_LIMIT) + 1);
                     console.log("Pages get: ", this.pages);

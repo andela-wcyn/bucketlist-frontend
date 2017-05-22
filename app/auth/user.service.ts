@@ -2,7 +2,7 @@ import { ToastOptions, ToastyConfig, ToastyService } from 'ng2-toasty';
 import { IUser, IUserLogin, IUserToken } from './user';
 import { Observable } from 'rxjs/Observable';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { AuthHttp, JwtHelper } from 'angular2-jwt';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
@@ -72,18 +72,7 @@ export class UserService {
 
 
     private handleError (error: Response) {
-        console.log("Error: ", error);
-        let error_message = "Woops! Something went wrong. Please try again Later";
-        console.log("Error again:1 ");
-        let toastOptions: ToastOptions = {
-            title: "Server Error",
-            msg: error_message,
-            showClose: true,
-            timeout: 5000,
-        };
-        console.log("Error again2: ");
-        this._toastyService.error(toastOptions);
-        console.log("Error again:3 ");
+        console.log("Error: ", error);        
         return Observable.throw(error.json() || "Server Error")
     }
 }

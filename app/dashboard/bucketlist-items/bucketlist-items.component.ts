@@ -74,7 +74,7 @@ export class BucketlistItemsComponent implements OnInit{
 
     deleteBucketlistItem(id: number, item_id: number) {
         this.modal.open(ConfirmDialogComponent,
-            overlayConfigFactory({ }, BSModalContext));
+            overlayConfigFactory({}, BSModalContext));
         this._confirmDialogService.confirm
             .subscribe((result: any) => {
                 if (result) {
