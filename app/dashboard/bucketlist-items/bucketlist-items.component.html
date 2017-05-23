@@ -1,15 +1,15 @@
 <div class="main-content">
 
         <div class="container-fluid">
-            <div class="row"  *ngIf='bucketlist'>
-                <h3> {{ bucketlist.description }}</h3>
-                <div class="col-xs-12">
+            <div class="row"  *ngIf='bucketlist'>              
+                <div class="col-lg-8  col-lg-offset-2 col-md-12">
+                    <h3> {{ bucketlist.description }}</h3>
                     <button class="btn btn-warning" [routerLink]="['/bucketlists']"> Back</button>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-8  col-lg-offset-2 col-md-12">
                     <div class="card card-nav-tabs" >
                         <div class="card-header" data-background-color="purple">
                             <div class="nav-tabs-navigation">
